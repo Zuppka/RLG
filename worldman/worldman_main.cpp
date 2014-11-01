@@ -233,14 +233,15 @@ void listOptions() {
     }
 
     if (!world.readIndex() && !world.readData(type)) {
-        //world.writeData(type);
+        world.writeData(type);
         //world.displayData(sizeData);    // Display latest entry
     }
 }
 
 // Main program
 int main(int argc, char *argv[]) {
-    world.init();
+    if (world.init())
+        return 0;
 
     // Check for parameters passed on program execution
     // Create a new set of worlds

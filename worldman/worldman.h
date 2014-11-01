@@ -33,7 +33,7 @@ private:
 
 public:
     Worldman(int val) {}
-    void init ();
+    size_t init ();
     size_t getTypeByID (size_t id);
     size_t writeData (size_t type);
     size_t readIndex ();

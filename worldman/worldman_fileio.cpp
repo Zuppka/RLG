@@ -8,7 +8,10 @@ Desc: Controls creating necessary files, reading, writing and displaying data
 #include <fstream>
 
 #include <json/json.h>
-#include "worldman.h"
+#include <worldman.h>
+#include <windows.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 // Arrays for storing file data and data position pointers
 Json::Value data, index;
@@ -17,15 +20,24 @@ int sizeIndex, sizeData;
 const char *filename[6] = {"database\\db_index.json", "database\\db_dwarfPlanets.json", "database\\db_planets.json", "database\\db_gasGiants.json", "database\\db_stars.json", "database\\db_compactObj.json"};
 
 // Initialize
-void Worldman::init () {
+size_t Worldman::init () {
     int arraySize = sizeof(filename) / sizeof(filename[0]);
+    struct stat info;
+    const char *pathname = "database";
+
+    // Check if database directory already exists
+    if (stat (pathname, &info) != 0) {
+        printf("Creating directory %s\n", pathname);
+        CreateDirectory("database", NULL);
+    }
     // Create database files if the do not exist
     for (int i = 0; i < arraySize; i++) {
         if (!std::ifstream (filename[i])) {
             printf("Creating file %s...\n", filename[i]);
-            std::ofstream tmpfile (filename[i]);
+            std::ofstream tmpfile(filename[i]);
         }
     }
+    return 0;
 }
 
 // Read only the index database. Useful for looking up type of entity by ID

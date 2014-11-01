@@ -2,15 +2,14 @@
 #define TILEMAN_H
 
 class Tileman {
+
 	private:
-		
 
 	public:
-		static int xPos, yPos;
-		
+	    int xPos, yPos;
 		Tileman() {}
-        
-        void setTile(int x, int y);   
+
+        void setTile(int, int);
 };
 
 #endif // TILEMAN_H
