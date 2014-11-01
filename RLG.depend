@@ -1,0 +1,86 @@
+# depslib dependency file v1.0
+1410138010 source:d:\bin\rlg\main.cpp
+	<stdlib.h>
+	<stdio.h>
+
+1409782293 source:d:\bin\rlg\worldman\json_reader.cpp
+	<json/assertions.h>
+	<json/reader.h>
+	<json/value.h>
+	"json_tool.h"
+	<utility>
+	<cstdio>
+	<cassert>
+	<cstring>
+	<istream>
+
+1409782293 d:\bin\rlg\worldman\json_tool.h
+
+1409782293 source:d:\bin\rlg\worldman\json_value.cpp
+	<json/assertions.h>
+	<json/value.h>
+	<json/writer.h>
+	"json_batchallocator.h"
+	<math.h>
+	<sstream>
+	<utility>
+	<cstring>
+	<cassert>
+	<cpptl/conststring.h>
+	<cstddef>
+	"json_internalarray.inl"
+	"json_internalmap.inl"
+	"json_valueiterator.inl"
+
+1409782293 d:\bin\rlg\worldman\json_batchallocator.h
+	<stdlib.h>
+	<assert.h>
+
+1409782293 d:\bin\rlg\worldman\json_valueiterator.inl
+
+1409782293 source:d:\bin\rlg\worldman\json_writer.cpp
+	<json/writer.h>
+	"json_tool.h"
+	<utility>
+	<assert.h>
+	<stdio.h>
+	<string.h>
+	<sstream>
+	<iomanip>
+	<math.h>
+
+1410758015 source:d:\bin\rlg\worldman\worldman.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<iostream>
+	<fstream>
+	<random>
+	<ctime>
+	<json/json.h>
+	"worldman.h"
+
+1413258997 d:\bin\rlg\worldman\worldman.h
+
+1413342103 source:d:\bin\rlg\worldman\worldman_generator.cpp
+	<math.h>
+	<random>
+	<ctime>
+	"worldman.h"
+
+1411950871 source:d:\bin\rlg\worldman\worldman_main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<random>
+	<iostream>
+	<unistd.h>
+	<windows.h>
+	"worldman.h"
+
+1413258898 source:d:\bin\rlg\worldman\worldman_fileio.cpp
+	<fstream>
+	<json/json.h>
+	"worldman.h"
+
