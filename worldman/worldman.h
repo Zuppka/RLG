@@ -27,19 +27,12 @@ extern size_t p_lifeCheck, p_hasLife, p_magField;
 extern double s_radius, s_mass, s_luminosity, s_intensity, s_temp, s_habitable_min, s_habitable_max, s_age;
 
 class Worldman {
+    private:
+        Worldman() {}
 
-private:
-    Worldman() {}
-
-public:
-    Worldman(int val) {}
-    size_t init ();
-    size_t getTypeByID (size_t id);
-    size_t writeData (size_t type);
-    size_t readIndex ();
-    size_t readData (size_t type);
-    void displayData (size_t entID);
-    size_t createEntity (size_t type, size_t subtype);
+    public:
+        Worldman(int val) {}
+        size_t createEntity (size_t type, size_t subtype);
 };
 
 #endif // WORLDMAN_H

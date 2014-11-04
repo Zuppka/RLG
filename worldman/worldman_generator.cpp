@@ -10,6 +10,12 @@ Desc: The math behind the generation of all entity properties including planets 
 #include <ctime>
 
 #include "worldman.h"
+#include <json/json.h>
+
+// Shared data storage variables
+extern Json::Value data;
+extern int sizeIndex, sizeData;
+
 
 // Random number seed
 unsigned seed;
@@ -21,6 +27,84 @@ double p_albedo, p_albedoCloud, p_emissivity, p_emissCloud, p_emissSurf, p_green
 size_t p_lifeCheck, p_hasLife, p_magField;
 // Star variables
 double s_radius, s_mass, s_luminosity, s_intensity, s_temp, s_habitable_min, s_habitable_max, s_age;
+
+// Save data
+size_t saveEntityInfo (size_t type) {
+
+    if (type == 1) {    // Dwarf Planets
+        data[sizeData]["entityID"] = sizeIndex;
+    }
+	else if (type == 2) {   // Planets
+        // Assign values to the content of entry
+        data[sizeData]["entityID"] = sizeIndex;
+        data[sizeData]["p_radius"] = p_radius;
+        data[sizeData]["p_dist"] = p_dist;
+        data[sizeData]["p_period"] = p_period;
+        data[sizeData]["p_mass"] = p_mass;
+        data[sizeData]["p_gravity"] = p_gravity;
+        data[sizeData]["p_solarConst"] = p_solarConst;
+        data[sizeData]["p_pressure"] = p_pressure;
+        data[sizeData]["p_temp"] = p_temp;
+        data[sizeData]["p_albedo"] = p_albedo;
+        data[sizeData]["p_emissivity"] = p_emissivity;
+        data[sizeData]["p_greenhouseEff"] = p_greenhouseEff;
+        data[sizeData]["p_coreComp"] = p_coreComp;
+        data[sizeData]["p_atmDens"] = p_atmDens;
+        data[sizeData]["p_atmComp"] = p_atmComp;
+        data[sizeData]["p_age"] = p_age;
+
+	}
+    else if (type == 3) {   // Gas Giants
+        data[sizeData]["entityID"] = sizeIndex;
+	}
+    else if (type == 4) {   // Stars
+        data[sizeData]["entityID"] = sizeIndex;
+        data[sizeData]["s_radius"] = s_radius;
+        data[sizeData]["s_mass"] = s_mass;
+        data[sizeData]["s_luminosity"] = s_luminosity;
+        data[sizeData]["s_temp"] = s_temp;
+        data[sizeData]["s_habitable_min"] = s_habitable_min;
+        data[sizeData]["s_habitable_max"] = s_habitable_max;
+        data[sizeData]["s_age"] = s_age;
+	}
+    else if (type == 5) {   // Compact objects
+        data[sizeData]["entityID"] = sizeIndex;
+	}
+	else {
+        printf("ERROR: No valid data to write!\n");
+        return -1;
+	}
+
+	return 0;
+}
+
+// Print out final generated attributes and properties of entity
+size_t printEntityInfo (size_t type) {
+    if (type == 1) {    // Dwarf Planets
+
+    }
+    else if (type == 2) {   // Planets
+        printf("Description: The planet orbits a star of luminosity %.2f L_sol and mass of %.2f M_sol. ", s_luminosity / SOL_LUMINOSITY, s_mass / SOL_MASS);
+        printf("The planet's semi-major axis is %.3f AU and has a mass of %.2f M_earth with a gravitational acceleration of %.2f G. ",  p_dist / AU, p_mass / EARTH_MASS, p_gravity / EARTH_GRAV);
+        printf("It takes the planet %.0f days to orbit its star. The solar constant at the plant is %.0f W / m^2. ", p_period, p_solarConst);
+        printf("The plant has a %s core. The %s atmosphere composed primarily of %s and the pressure is about %.3f bar. ", p_coreComp, p_atmDens, p_atmComp, p_pressure / 1e5);
+        printf("The average surface temperature of the planet is %.0f K (%.0f C).\n\n", p_temp, p_temp - 273);
+    }
+    else if (type == 3) {   // Gas Giants
+
+    }
+    else if (type == 4) {   // Stars
+
+    }
+    else if (type == 5) {   // Compact objects
+
+    }
+    else {
+        printf("ERROR: No valid data to display!\n");
+        return -1;
+	}
+    return 0;
+}
 
 // Various random events that can occur during generation
 void genEvents () {
@@ -307,9 +391,9 @@ size_t Worldman::createEntity (size_t type, size_t subtype) {
     printf("Semi-Major Axis: %.2f AU\n", distribution(generator));
     */
 
+    printEntityInfo(type);
+    // Message about keeping data here?
+    saveEntityInfo(type);
+
     return 0;
 }
-
-
-
-

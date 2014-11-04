@@ -27,7 +27,6 @@
 			<Add option="-fexceptions" />
 		</Compiler>
 		<Unit filename="worldman.h" />
-		<Unit filename="worldman_fileio.cpp" />
 		<Unit filename="worldman_generator.cpp" />
 		<Unit filename="worldman_main.cpp" />
 		<Extensions>

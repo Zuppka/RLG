@@ -10,7 +10,7 @@ Useful Links
 [1] Global Warming: http://my.net-link.net/~malexan/Climate-Model.htm
 [2] Planet Temp Calc: http://www2.astro.indiana.edu/~gsimonel/temperature1.html
 [3] Estimate Planet Temps: http://bartonpaullevenson.com/NewPlanetTemps.html
-[4] Habitale Range: http://www.planetarybiology.com/calculating_habitable_zone.html
+[4] Habitabale Range: http://www.planetarybiology.com/calculating_habitable_zone.html
 [5] NASA fact sheet: http://nssdc.gsfc.nasa.gov/planetary/factsheet/
 [6] Earth's Early Atmo: http://pubs.acs.org/subscribe/archive/ci/30/i12/html/12learn.html
 [7] Earth's Early temps: http://mygeologypage.ucdavis.edu/cowen/historyoflife/earlyEarth.html
@@ -27,9 +27,11 @@ Useful Links
 #include <windows.h>
 
 #include "worldman.h"
+#include "fileman.h"
 
 // The world
-Worldman world(0);
+Fileman world(0);
+Worldman planet(0);
 
 // Print a list from an array of strings
 void printList (std::string list[], int size) {
@@ -135,7 +137,8 @@ void listOptions() {
             printf("Generating %s...\n\n", optionsSub3[0].c_str());
             //while(true) {
                 //Sleep(1000);
-                world.createEntity(type, subtype);
+                world.readIndex();
+                planet.createEntity(type, subtype);
             //}
             break;
         case 1:
@@ -233,13 +236,16 @@ void listOptions() {
     }
 
     if (!world.readIndex() && !world.readData(type)) {
-        world.writeData(type);
+        world.readData(type);   // Find the size of existing data to know where to write new data
+        world.writeData(type);  // Write the new data
         //world.displayData(sizeData);    // Display latest entry
+
     }
 }
 
 // Main program
 int main(int argc, char *argv[]) {
+    // Read the index file with all entities
     if (world.init())
         return 0;
 
