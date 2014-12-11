@@ -5,7 +5,7 @@
 
 // JSON storage vars
 extern Json::Value data, index;
-extern int sizeIndex, sizeData;
+extern size_t sizeIndex, sizeData;
 extern const char *filepath[6], *datapath, *filename[6];
 
 class Fileman {
@@ -13,9 +13,7 @@ class Fileman {
 private:
 
 public:
-
-
-    Fileman(int) {}
+    Fileman(size_t) {}
     size_t init ();
     size_t getTypeByID (size_t);
     size_t writeData (size_t);

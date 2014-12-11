@@ -1,124 +1,13 @@
 # depslib dependency file v1.0
-1409782293 source:d:\bin\rlg\worldman\json_reader.cpp
-	<json/assertions.h>
-	<json/reader.h>
-	<json/value.h>
-	"json_tool.h"
-	<utility>
-	<cstdio>
-	<cassert>
-	<cstring>
-	<istream>
-
-1409782293 d:\bin\rlg\worldman\json\assertions.h
-	<stdlib.h>
-	"config.h"
-	<stdexcept>
-
-1409782293 d:\bin\rlg\worldman\json\config.h
-	<cpptl/config.h>
-
-1409782293 d:\bin\rlg\worldman\json\reader.h
-	"features.h"
-	"value.h"
-	<deque>
-	<iosfwd>
-	<stack>
-	<string>
-
-1409782293 d:\bin\rlg\worldman\json\features.h
-	"forwards.h"
-
-1409782293 d:\bin\rlg\worldman\json\forwards.h
-	"config.h"
-
-1409782293 d:\bin\rlg\worldman\json\value.h
-	"forwards.h"
-	<string>
-	<vector>
-	<map>
-	<cpptl/smallmap.h>
-	<cpptl/forwards.h>
-
-1409782293 d:\bin\rlg\worldman\json_tool.h
-
-1409782293 source:d:\bin\rlg\worldman\json_value.cpp
-	<json/assertions.h>
-	<json/value.h>
-	<json/writer.h>
-	"json_batchallocator.h"
-	<math.h>
-	<sstream>
-	<utility>
-	<cstring>
-	<cassert>
-	<cpptl/conststring.h>
-	<cstddef>
-	"json_internalarray.inl"
-	"json_internalmap.inl"
-	"json_valueiterator.inl"
-
-1409782293 d:\bin\rlg\worldman\json\writer.h
-	"value.h"
-	<vector>
-	<string>
-
-1409782293 d:\bin\rlg\worldman\json_batchallocator.h
-	<stdlib.h>
-	<assert.h>
-
-1409782293 d:\bin\rlg\worldman\json_valueiterator.inl
-
-1409782293 source:d:\bin\rlg\worldman\json_writer.cpp
-	<json/writer.h>
-	"json_tool.h"
-	<utility>
-	<assert.h>
-	<stdio.h>
-	<string.h>
-	<sstream>
-	<iomanip>
-	<math.h>
-
-1414871791 source:d:\bin\rlg\worldman\worldman_fileio.cpp
-	<fstream>
-	<json/json.h>
-	<worldman.h>
-	<windows.h>
-	<sys/types.h>
-	<sys/stat.h>
-
-1409782293 d:\bin\rlg\worldman\json\json.h
-	"autolink.h"
-	"value.h"
-	"reader.h"
-	"writer.h"
-	"features.h"
-
-1409782293 d:\bin\rlg\worldman\json\autolink.h
-	"config.h"
-	<cpptl/cpptl_autolink.h>
-	"autolink.h"
-
-1414871606 d:\bin\rlg\worldman\worldman.h
-
-1414957275 source:d:\bin\rlg\worldman\worldman_generator.cpp
+1418261579 source:d:\bin\rlg\worldman\worldman_generator.cpp
 	<math.h>
 	<random>
 	<ctime>
 	"worldman.h"
+	"fileman.h"
 	<json/json.h>
 
-1415079347 source:d:\bin\rlg\worldman\worldman_main.cpp
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<random>
-	<iostream>
-	<unistd.h>
-	<windows.h>
-	"worldman.h"
-	"fileman.h"
+1418253993 d:\bin\rlg\worldman\worldman.h
 
 1409778693 d:\bin\rlg\include\json\json.h
 	"autolink.h"
@@ -162,6 +51,16 @@
 	<vector>
 	<string>
 
-1415078556 d:\bin\rlg\include\fileman.h
+1418253993 source:d:\bin\rlg\worldman\worldman_main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string>
+	<random>
+	<iostream>
+	<unistd.h>
+	<windows.h>
+	"worldman.h"
+
+1418235169 d:\bin\rlg\include\fileman.h
 	<json/json.h>
 

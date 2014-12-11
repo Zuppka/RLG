@@ -15,16 +15,16 @@ Desc: Controls creating necessary files, reading, writing and displaying data
 
 // Arrays for storing file data and data position pointers
 Json::Value data, index;
-int sizeIndex, sizeData;
+size_t sizeIndex, sizeData;
 
 const char *filepath[6], *datapath = "database";
 const char *filename[6] = {"db_index.json", "db_dwarfPlanets.json", "db_planets.json", "db_gasGiants.json", "db_stars.json", "db_compactObj.json"};
-char tmpPath[64];
 
 // Initialize necessary files and folders
 size_t Fileman::init () {
-    int arraySize = sizeof(filename) / sizeof(filename[0]);
+    int len = strlen(datapath) + 2, arraySize = sizeof(filename) / sizeof(filename[0]);
     struct stat info;
+    char *tmpPath;
 
     // Check if database directory already exists
     if (stat (datapath, &info) != 0) {
@@ -33,10 +33,13 @@ size_t Fileman::init () {
     }
     // Create database files
     for (int i = 0; i < arraySize; i++) {
-        strcpy (tmpPath, datapath);
+        // Setup the name of the file path
+        tmpPath = new char[len + strlen(filename[i])];
+        strcpy(tmpPath, datapath);
         strcat(tmpPath, "\\");
         strcat(tmpPath, filename[i]);
         filepath[i] = tmpPath;
+
         // Check if file doesn't already exist
         if (!std::ifstream (filepath[i])) {
             printf("Creating file %s...\n", filepath[i]);
@@ -48,6 +51,7 @@ size_t Fileman::init () {
 
 // Read only the index database. Useful for looking up type of entity by ID
 size_t Fileman::readIndex () {
+    printf("DEBUG: READING INDEX\n");
     std::ifstream indexFile;
     Json::Value parsedFromString;
     Json::Reader reader;
@@ -76,6 +80,7 @@ size_t Fileman::readIndex () {
 
 // Read data from any of the entity database files
 size_t Fileman::readData (size_t type) {
+    printf("DEBUG: READING DATA TYPE: %d\n", type);
     std::ifstream dataFile;
     Json::Value parsedFromString;
     Json::Reader reader;
@@ -95,8 +100,11 @@ size_t Fileman::readData (size_t type) {
         data = parsedFromString;
         sizeData = data.size();
     }
-    else
+    else {
+        data.clear();   // Clear and reset data to default if the file is still blank
+        sizeData = 0;
         printf("DEBUG: Blank Data file read.\n\n");
+    }
 
     dataFile.close();
 	return 0;
@@ -104,6 +112,7 @@ size_t Fileman::readData (size_t type) {
 
 // Append to end of JSON file
 size_t Fileman::writeData (size_t type) {
+    printf("WRITING INDEX AND DATA\n");
     // Create variables used in JSON I/O
     std::ofstream indexFile, dataFile;
     Json::StyledWriter styledWriter;
@@ -137,7 +146,12 @@ size_t Fileman::writeData (size_t type) {
 
 // Search the index array for matching ID and return the type
 size_t Fileman::getTypeByID (size_t id) {
-    for (int i = 0; i <= sizeIndex; i++) {
+    //readIndex(); // Assuming index is already loaded?
+    // Return if requested ID is out of bounds of index
+    if (id < 0 || id > sizeIndex)
+        return -1;
+
+    for (size_t i = 0; i <= sizeIndex; i++) {
         if (index[i]["entityID"].asUInt() == id)
             return index[i]["type"].asInt();
     }

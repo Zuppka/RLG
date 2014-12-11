@@ -10,12 +10,14 @@ Desc: The math behind the generation of all entity properties including planets 
 #include <ctime>
 
 #include "worldman.h"
+#include "fileman.h"
 #include <json/json.h>
 
 // Shared data storage variables
 extern Json::Value data;
-extern int sizeIndex, sizeData;
+extern size_t sizeIndex, sizeData;
 
+Fileman ents(0);    // Main list of entities
 
 // Random number seed
 unsigned seed;
@@ -24,56 +26,159 @@ unsigned seed;
 const char *p_atmComp, *p_atmDens, *p_coreComp;
 double p_radius, p_dist, p_period, p_mass, p_solarConst, p_pressure, p_temp, p_gravity, p_escVel;
 double p_albedo, p_albedoCloud, p_emissivity, p_emissCloud, p_emissSurf, p_greenhouseEff, p_cloudCover, p_cloudFactor, p_surfWater, p_surfIce, p_boilTemp, p_freezeTemp, p_age = 0.0, p_ageLife;
-size_t p_lifeCheck, p_hasLife, p_magField;
+size_t p_lifeCheck, p_hasLife, p_magField, p_starID;
 // Star variables
 double s_radius, s_mass, s_luminosity, s_intensity, s_temp, s_habitable_min, s_habitable_max, s_age;
 
-// Save data
-size_t saveEntityInfo (size_t type) {
+// Dummy initialize for Fileman
+void Worldman::init(){
+    ents.init();
+}
 
-    if (type == 1) {    // Dwarf Planets
-        data[sizeData]["entityID"] = sizeIndex;
+// Semi-dummy for checking if entity type matches a given ID
+size_t Worldman::checkTypebyID (size_t id, size_t type) {
+    ents.readIndex();   // Load index before checking
+    if (ents.getTypeByID(id) == type) {  // Check if ID is an existing star
+        printf("The entity %d is of type %d!\n", id, type);
+        return 1;
     }
-	else if (type == 2) {   // Planets
-        // Assign values to the content of entry
-        data[sizeData]["entityID"] = sizeIndex;
-        data[sizeData]["p_radius"] = p_radius;
-        data[sizeData]["p_dist"] = p_dist;
-        data[sizeData]["p_period"] = p_period;
-        data[sizeData]["p_mass"] = p_mass;
-        data[sizeData]["p_gravity"] = p_gravity;
-        data[sizeData]["p_solarConst"] = p_solarConst;
-        data[sizeData]["p_pressure"] = p_pressure;
-        data[sizeData]["p_temp"] = p_temp;
-        data[sizeData]["p_albedo"] = p_albedo;
-        data[sizeData]["p_emissivity"] = p_emissivity;
-        data[sizeData]["p_greenhouseEff"] = p_greenhouseEff;
-        data[sizeData]["p_coreComp"] = p_coreComp;
-        data[sizeData]["p_atmDens"] = p_atmDens;
-        data[sizeData]["p_atmComp"] = p_atmComp;
-        data[sizeData]["p_age"] = p_age;
+    else
+        return 0;
+}
 
-	}
-    else if (type == 3) {   // Gas Giants
-        data[sizeData]["entityID"] = sizeIndex;
-	}
-    else if (type == 4) {   // Stars
-        data[sizeData]["entityID"] = sizeIndex;
-        data[sizeData]["s_radius"] = s_radius;
-        data[sizeData]["s_mass"] = s_mass;
-        data[sizeData]["s_luminosity"] = s_luminosity;
-        data[sizeData]["s_temp"] = s_temp;
-        data[sizeData]["s_habitable_min"] = s_habitable_min;
-        data[sizeData]["s_habitable_max"] = s_habitable_max;
-        data[sizeData]["s_age"] = s_age;
-	}
-    else if (type == 5) {   // Compact objects
-        data[sizeData]["entityID"] = sizeIndex;
-	}
-	else {
-        printf("ERROR: No valid data to write!\n");
-        return -1;
-	}
+// Get the last ID of the index
+size_t Worldman::getLastID () {
+    return sizeIndex;
+}
+
+// Small function to round doubles to desired precision
+double deciTrunc (double value, int precision) {
+    double roundValue;
+    int mult;
+    if (precision == 1)
+         mult = 10;
+    else
+        mult = pow(10, precision);
+    // Multiply value by a factor of 10, round to nearest integer, then divide by same factor
+    roundValue = round(value * mult) / mult;
+    return roundValue;
+}
+
+// Save data to latest entry position
+size_t saveEntityInfo (size_t type) {
+    switch(type) {
+        case 0:     // Asteroid/comets
+            break;
+        case 1:     // Dwarf Planets
+            data[sizeData]["entityID"] = sizeIndex;
+            break;
+        case 2:     // Planets
+            // Assign values to the content of entry
+            data[sizeData]["entityID"] = sizeIndex;
+            data[sizeData]["p_radius"] = deciTrunc(p_radius / 1000, 1);
+            data[sizeData]["p_dist"] = deciTrunc(p_dist / AU, 3);
+            data[sizeData]["p_period"] = deciTrunc(p_period, 3);
+            data[sizeData]["p_mass"] = deciTrunc(p_mass / EARTH_MASS, 3);
+            data[sizeData]["p_gravity"] = deciTrunc(p_gravity / EARTH_GRAV, 3);
+            data[sizeData]["p_solarConst"] = deciTrunc(p_solarConst, 1);
+            data[sizeData]["p_pressure"] = deciTrunc(p_pressure, 3);
+            data[sizeData]["p_temp"] = deciTrunc(p_temp, 1);
+            data[sizeData]["p_albedo"] = deciTrunc(p_albedo, 3);
+            data[sizeData]["p_emissivity"] = p_emissivity;
+            data[sizeData]["p_greenhouseEff"] = deciTrunc(p_greenhouseEff, 3);
+            data[sizeData]["p_coreComp"] = p_coreComp;
+            data[sizeData]["p_atmDens"] = p_atmDens;
+            data[sizeData]["p_atmComp"] = p_atmComp;
+            data[sizeData]["p_age"] = p_age;
+            data[sizeData]["p_starID"] = p_starID;
+            break;
+        case 3:     // Gas Giants
+             data[sizeData]["entityID"] = sizeIndex;
+             break;
+        case 4:     // Stars
+            data[sizeData]["entityID"] = sizeIndex;
+            data[sizeData]["s_radius"] = s_radius / 1000;
+            data[sizeData]["s_mass"] = deciTrunc(s_mass / SOL_MASS, 3);
+            data[sizeData]["s_luminosity"] = deciTrunc(s_luminosity / SOL_LUMINOSITY, 3);
+            data[sizeData]["s_temp"] = s_temp;
+            data[sizeData]["s_habitable_min"] = deciTrunc(s_habitable_min / AU, 3);
+            data[sizeData]["s_habitable_max"] = deciTrunc(s_habitable_max / AU, 3);
+            data[sizeData]["s_age"] = s_age;
+            break;
+        case 5:     // Compact objects
+            data[sizeData]["entityID"] = sizeIndex;
+            break;
+        default:
+            printf("ERROR: No valid data to write!\n");
+            return -1;
+    }
+	return 0;
+}
+
+// Load data by entID
+size_t loadEntityByID (int id) {
+    // Skip loading if
+    if (id < 0)
+        return 0;
+
+    // Parse entire type specific data file
+    size_t type = ents.getTypeByID(id);
+    ents.readData(type); // Read parent data
+
+    for (size_t i = 0; i <= sizeData; i++) {
+        if (data[i]["entityID"] == id) {
+            // Load different data depending on entity type
+            switch (type) {
+                case 0:     // Asteroid/comets
+                    // p_radius = data[i]["p_radius"] * 1000;
+                    break;
+                case 1:    // Dwarf Planets
+                    // p_radius = data[i]["p_radius"] * 1000;
+                    break;
+                case 2:  // Planets
+                    p_radius = data[i]["p_radius"].asDouble() * 1000;
+                    p_dist = data[i]["p_dist"].asDouble() * AU;
+                    p_period = data[i]["p_period"].asDouble();
+                    p_mass = data[i]["p_mass"].asDouble() * EARTH_MASS;
+                    p_gravity = data[i]["p_gravity"].asDouble() * EARTH_GRAV;
+                    p_solarConst = data[i]["p_solarConst"].asDouble();
+                    p_pressure = data[i]["p_pressure"].asDouble();
+                    p_temp = data[i]["p_temp"].asDouble();
+                    p_albedo = data[i]["p_albedo"].asDouble();
+                    p_emissivity = data[i]["p_emissivity"].asDouble();
+                    p_greenhouseEff = data[i]["p_greenhouseEff"].asDouble();
+                    p_coreComp = data[i]["p_coreComp"].asCString();
+                    p_atmDens = data[i]["p_atmDens"].asCString();
+                    p_atmComp = data[i]["p_atmComp"].asCString();
+                    p_age = data[i]["p_age"].asDouble();
+                    p_starID = data[i]["p_starID"].asUInt();
+                    break;
+                case 3:  // Gas Giants
+                    // p_radius = data[i]["p_radius"] * 1000;
+                    break;
+                case 4:   // Stars
+                    s_radius = data[i]["s_radius"].asDouble() * 1000;
+                    s_mass = data[i]["s_mass"].asDouble() * SOL_MASS;
+                    s_luminosity = data[i]["s_luminosity"].asDouble() * SOL_LUMINOSITY;
+                    s_temp = data[i]["s_temp"].asDouble();
+                    s_habitable_min = data[i]["s_habitable_min"].asDouble() * AU;
+                    s_habitable_max = data[i]["s_habitable_max"].asDouble() * AU;
+                    s_age = data[i]["s_age"].asDouble();
+                    break;
+                case 5:  // Compact objects
+                    // p_radius = data[i]["p_radius"] * 1000;
+                    break;
+                default:
+                    printf("ERROR: No valid data to load!\n");
+                    return -1;
+            }
+            break;  // Exit for loop
+        }
+        else if (i == sizeData) {
+            printf("ERROR: No valid data to load!\n");
+            return -1;
+        }
+    }
 
 	return 0;
 }
@@ -94,7 +199,7 @@ size_t printEntityInfo (size_t type) {
 
     }
     else if (type == 4) {   // Stars
-
+        printf("I AM A STAR\n\n");
     }
     else if (type == 5) {   // Compact objects
 
@@ -137,8 +242,7 @@ void genEvents () {
     }
 }
 
-// Create a new entity entry
-size_t Worldman::createEntity (size_t type, size_t subtype) {
+void createPlanet () {
 
     int num;
     // Planet property strings
@@ -152,16 +256,6 @@ size_t Worldman::createEntity (size_t type, size_t subtype) {
     seed = std::time(0);    // Simple randomization of the seed
     generator.seed(seed);
     srand(seed);
-
-    /* Initialize star properties */ // NOTE: Should read them from existing star in the future
-    s_radius = SOL_RADIUS;
-    s_temp = SOL_TEMP;
-    s_mass = SOL_MASS;
-    s_luminosity = 4 * PI * s_radius * s_radius * SIGMA * pow(s_temp, 4);
-    s_habitable_min = sqrt((s_luminosity / SOL_LUMINOSITY) / 1.1) * AU;	// Minimum habitable distance [4]
-    s_habitable_max = sqrt((s_luminosity / SOL_LUMINOSITY) / 0.53) * AU;	// Maximum habitable distance [4]
-    s_age = 4.6; // Age of the sun ~ 4.6 billion years
-    s_intensity = 0.7 + 0.3 * p_age / (s_age - 0.1);  // Initial solar intensity ~+10% per billion years
 
     /* Initialize planet properties */
     // Orbital parameters
@@ -223,12 +317,13 @@ size_t Worldman::createEntity (size_t type, size_t subtype) {
     // Loop cycle generates history of planet. Starts 0.1 billion years after star formation.
     while (p_age <= s_age - 0.1) {
         // Print Debug info!
+        /*
         printf("Emiss: %.3f = %.3f + %.3f - %.3f Albedo: %.3f\n", p_emissivity, p_emissSurf, p_emissCloud, p_greenhouseEff, p_albedo);
         printf("Pressure: %.2f bar\n", p_pressure / 1e5);
         printf("Temp: %.2f K (%.2f C) Boiling: %.2f K (%.2f C) \n", p_temp, p_temp - 273, p_boilTemp, p_boilTemp - 273);
         printf("CloudCover: %.3f\n", p_cloudCover);
         printf("Age: %.2f Intensity: %.2f SurfWater: %.2f%% SurfIce: %.2f%%\n\n", p_age, s_intensity, p_surfWater * 100, p_surfIce * 100);
-
+*/
         // Increase planet age
         p_age += 0.1;
         // Introduce random events
@@ -390,10 +485,52 @@ size_t Worldman::createEntity (size_t type, size_t subtype) {
     printf("Semi-Major Axis: %.2f AU\n", distribution(generator));
     printf("Semi-Major Axis: %.2f AU\n", distribution(generator));
     */
+}
 
+void createStar () {
+    /* Initialize star properties */ // NOTE: Should read them from existing star in the future
+    s_radius = SOL_RADIUS;
+    s_temp = SOL_TEMP;
+    s_mass = SOL_MASS;
+    s_luminosity = 4 * PI * s_radius * s_radius * SIGMA * pow(s_temp, 4);
+    s_habitable_min = sqrt((s_luminosity / SOL_LUMINOSITY) / 1.1) * AU;	// Minimum habitable distance [4]
+    s_habitable_max = sqrt((s_luminosity / SOL_LUMINOSITY) / 0.53) * AU;	// Maximum habitable distance [4]
+    s_age = 4.6; // Age of the sun ~ 4.6 billion years
+    s_intensity = 0.7 + 0.3 * p_age / (s_age - 0.1);  // Initial solar intensity ~+10% per billion years
+}
+
+// Create a new entity entry
+size_t Worldman::createEntity (size_t type, size_t subtype, int parentID) {
+
+    ents.readIndex();
+    loadEntityByID(parentID);   // Load star data???
+    //data.clear();   // Clear all data in JSON array before copying new data
+    ents.readData(type);    // Read updated entity data to make sure new data is appended to end
+    p_starID = parentID;    // Save the ID of parent for the child (Star-planet or planet-moon)
+    // Load the type specific data file here
+
+    switch(type) {
+        case 0:
+            break;
+        case 1:
+            break;
+        case 2:
+            createPlanet();
+            break;
+        case 3:
+            break;
+        case 4:
+            createStar();
+            break;
+        case 5:
+            break;
+    }
     printEntityInfo(type);
     // Message about keeping data here?
     saveEntityInfo(type);
+    // Write the new data
+    ents.writeData(type);
 
     return 0;
 }
+
