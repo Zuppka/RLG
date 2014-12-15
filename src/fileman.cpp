@@ -13,10 +13,6 @@ Desc: Controls creating necessary files, reading, writing and displaying data
 #include <sys/types.h>
 #include <sys/stat.h>
 
-// Arrays for storing file data and data position pointers
-Json::Value data, index;
-size_t sizeIndex, sizeData;
-
 const char *filepath[6], *datapath = "database";
 const char *filename[6] = {"db_index.json", "db_dwarfPlanets.json", "db_planets.json", "db_gasGiants.json", "db_stars.json", "db_compactObj.json"};
 
@@ -51,7 +47,7 @@ size_t Fileman::init () {
 
 // Read only the index database. Useful for looking up type of entity by ID
 size_t Fileman::readIndex () {
-    printf("DEBUG: READING INDEX\n");
+    printf("DEBUG: Reading INDEX file.\n");
     std::ifstream indexFile;
     Json::Value parsedFromString;
     Json::Reader reader;
@@ -61,7 +57,7 @@ size_t Fileman::readIndex () {
     indexFile.open (filepath[0], std::ifstream::binary);
      // Check if file can be opened
     if (!indexFile.is_open()) {
-       printf("Read error opening %s!\n", filepath[0]);
+       printf("ERROR: Read error opening %s!\n", filepath[0]);
        return 1;
     }
 
@@ -72,7 +68,7 @@ size_t Fileman::readIndex () {
         sizeIndex = index.size();
     }
     else
-        printf("DEBUG: Blank Index file read.\n\n");
+        printf("DEBUG: Blank INDEX file read.\n");
 
     indexFile.close();
     return 0;
@@ -80,7 +76,7 @@ size_t Fileman::readIndex () {
 
 // Read data from any of the entity database files
 size_t Fileman::readData (size_t type) {
-    printf("DEBUG: READING DATA TYPE: %d\n", type);
+    printf("DEBUG: Reading DATA of type: %d\n", type);
     std::ifstream dataFile;
     Json::Value parsedFromString;
     Json::Reader reader;
@@ -90,7 +86,7 @@ size_t Fileman::readData (size_t type) {
     dataFile.open (filepath[type], std::ifstream::binary);
     // Check if file can be opened
     if (!dataFile.is_open()) {
-       printf("Error opening type:%d %s!\n", type, filepath[type]);
+       printf("ERROR: Error opening %s of type %d!\n", filepath[type], type);
        return 1;
     }
 
@@ -103,7 +99,7 @@ size_t Fileman::readData (size_t type) {
     else {
         data.clear();   // Clear and reset data to default if the file is still blank
         sizeData = 0;
-        printf("DEBUG: Blank Data file read.\n\n");
+        printf("DEBUG: Blank DATA file read.\n");
     }
 
     dataFile.close();
@@ -112,7 +108,7 @@ size_t Fileman::readData (size_t type) {
 
 // Append to end of JSON file
 size_t Fileman::writeData (size_t type) {
-    printf("WRITING INDEX AND DATA\n");
+    printf("DEBUG: Writing INDEX and DATA files.\n");
     // Create variables used in JSON I/O
     std::ofstream indexFile, dataFile;
     Json::StyledWriter styledWriter;
@@ -120,14 +116,14 @@ size_t Fileman::writeData (size_t type) {
     // Open index
     indexFile.open (filepath[0], std::ofstream::out);
     if (!indexFile.is_open()) {
-        printf("Error opening %s!\n\n", filepath[0]);
+        printf("ERROR: Error opening %s!\n", filepath[0]);
         return 1;
     }
 
     // Open file for storing values based on entity type
     dataFile.open (filepath[type], std::ofstream::out);
     if (!dataFile.is_open()) {
-        printf("Error opening %s!\n\n\n", filepath[type]);
+        printf("ERROR: Error opening %s!\n", filepath[type]);
         return 1;
     }
 

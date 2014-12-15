@@ -16,6 +16,7 @@ Useful Links
 [7] Earth's Early temps: http://mygeologypage.ucdavis.edu/cowen/historyoflife/earlyEarth.html
 [8] Data for eqn water boiling point: http://www.engineeringtoolbox.com/boiling-point-water-d_926.html
 [9] Early Earth temp: http://www.nap.edu/openbook.php?record_id=12161&page=19
+[10] Stellar Class: http://en.wikipedia.org/wiki/Stellar_classification
 */
 
 #include <stdio.h>
@@ -30,7 +31,7 @@ Useful Links
 
 
 // The world
-Worldman planet(0);
+Worldman starSys;
 
 // Print a list from an array of strings
 void printList (std::string list[], int size) {
@@ -64,79 +65,61 @@ void listOptions() {
     std::string input;
 
     // All the strings used in the options below
-    std::string optionsType[6] = {"Asteroid/Comet", "Dwarf Planet/Moon", "Terrestrial Planet", "Gas Giant", "Star", "Compact Objects"};
+    //std::string optionsType[6] = {"Asteroid/Comet", "Dwarf Planet/Moon", "Terrestrial Planet", "Gas Giant", "Star", "Compact Objects"};
+    std::string optionsType[4] = {"Generate Star System", "Generate Stellar Object", "Load Info", "Manual Generation"};
+    /*
     std::string optionsSub1[6] = {"Ice Comet", "Iron Asteroid", "Carboneous Asteroid", "???", "???", "???"};
     std::string optionsSub2[6] = {"Random Dwarf Planet", "Ice Dwarf Planet", "Barren Dwarf Planet", "???", "???", "???"};
     std::string optionsSub3[7] = {"Random Planet", "Terrestrial Planet", "Volcanic Planet", "Oceanic Planet", "Barren Planet", "Arctic Planet", "Desert Planet"};
     std::string optionsSub4[6] = {"Random Gas Giant", "Hydrogen Gas Giant", "Ice Giant", "Hot Jupiter", "Super Jupiter", "Gas Dwarf"};
     std::string optionsSub5[6] = {"Random Star", "Main Sequence Star", "Red Giant Star", "Red Supergiant Star", "Red Dwarf", "Brown Dwarf"};
     std::string optionsSub6[6] = {"White Dwarf", "Neutron Star", "Quark Star", "Black Hole", "SMBH", "???"};
+    */
 
     // Walk user through creation process
-    printf("\n Creating new space object. Select type:\n");
+    printf("\nCreating new space object. Select option:\n");
     arraySize = sizeof(optionsType) / sizeof(optionsType[0]);   // Byte size of array divided by bytes per entry
     printList(optionsType, arraySize);
     type = checkValue(0, arraySize - 1);
-    printf("Generating %s...\n", optionsType[type].c_str());
+
 
     // Subtype choosing
-    printf("\n Select sub-type:\n");
+    printf("\nSelect sub-type:\n");
     switch (type) {
-        case 0: // Asteroid/Comet
-            arraySize = sizeof(optionsSub1) / sizeof(optionsSub1[0]);   // Byte size of array divided by bytes per entry
-            printList(optionsSub1, arraySize);
-            subtype = checkValue(0, arraySize - 1);
-            printf("Generating %s...\n", optionsSub1[subtype].c_str());
+        case 0: // Generate Star System
+            printf("\n***Generating a new Star System...***\n");
+            starSys.createStarSys();
             break;
-        case 1: // Dwarf Planet/Moon
-            arraySize = sizeof(optionsSub2) / sizeof(optionsSub2[0]);   // Byte size of array divided by bytes per entry
-            printList(optionsSub2, arraySize);
-            subtype = checkValue(0, arraySize - 1);
-            printf("Generating %s...\n", optionsSub2[subtype].c_str());
+        case 1: // Generate Stellar Object
+            printf("Generating a new Stellar Object...\n");
             break;
-        case 2: // Terrestrial Planet
-            arraySize = sizeof(optionsSub3) / sizeof(optionsSub3[0]);   // Byte size of array divided by bytes per entry
-            printList(optionsSub3, arraySize);
-            subtype = checkValue(0, arraySize - 1);
-            printf("Generating %s...\n\n", optionsSub3[subtype].c_str());
+        case 2: // Load Info
+            printf("Enter entity ID: ");
+            subtype = checkValue(0, 999);
             break;
-        case 3: // Gas Giant
-            arraySize = sizeof(optionsSub4) / sizeof(optionsSub4[0]);   // Byte size of array divided by bytes per entry
-            printList(optionsSub4, arraySize);
-            subtype = checkValue(0, arraySize - 1);
-            printf("Generating %s...\n", optionsSub4[subtype].c_str());
-            break;
-        case 4: // Star
-            arraySize = sizeof(optionsSub5) / sizeof(optionsSub5[0]);   // Byte size of array divided by bytes per entry
-            printList(optionsSub5, arraySize);
-            subtype = checkValue(0, arraySize - 1);
-            printf("Generating %s...\n", optionsSub5[subtype].c_str());
-            break;
-        case 5: // Compact object
-            arraySize = sizeof(optionsSub6) / sizeof(optionsSub6[0]);   // Byte size of array divided by bytes per entry
-            printList(optionsSub6, arraySize);
-            subtype = checkValue(0, arraySize - 1);
-            printf("Generating %s...\n", optionsSub6[subtype].c_str());
+        case 3: // Manual Generation
+            printf("Entering manual generation. Enter a star entity ID, or leave blank to enter star parameters.\n");
+            // Ask for star params, save/write, move on to planet params if planets were generated
             break;
     }
 
-    // For planets only?
-    while (type == 2) {
+    // For manual planets only?
+    while (type == 3) {
         printf("Enter entity ID of an existing star (leave blank for a new star): ");
         std::getline(std::cin, input);
 
         // Generate random star entity on blank/no input
         if (input.empty()) {
             printf("Blank detected: Creating random star...\n");
-            planet.createEntity(4, 0, -1);  // Random Star
+            starSys.createStarSys();  // Random Star
             printf("Star created, creating planet...\n");
-            entID = planet.getLastID();
+            entID = starSys.getLastID();
             break;
         }
         // All planets need a valid parent star. If non-blank input, check if input is a positive number
         else if (input.find_first_not_of("0123456789") == std::string::npos) {
             entID = atoi(input.c_str());    // Convert string to integer
-            if (planet.checkTypebyID(entID, 4))
+            if (starSys.checkTypebyID(entID, 4))
                 break;
             else
                 printf("Entity is not a star.\n");
@@ -147,14 +130,14 @@ void listOptions() {
         }
     }
     // Generation starts here
-    planet.createEntity(type, subtype, entID);
+
 
 }
 
 // Main program
 int main(int argc, char *argv[]) {
     // Read the index file with all entities
-    planet.init();
+    starSys.init();
     //ents.readIndex();
 
     // Check for parameters passed on program execution
