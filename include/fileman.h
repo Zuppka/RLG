@@ -6,19 +6,17 @@
 class Fileman {
 
     private:
-
+        int debugLvl = 0;
     public:
         // JSON storage vars
-        size_t sizeIndex, sizeData;
+        int sizeIndex, sizeData;
         Json::Value data, index;
 
         Fileman() {}
         size_t init ();
-        size_t getTypeByID (size_t);
         size_t writeData (size_t);
         size_t readIndex ();
         size_t readData (size_t);
-        void displayData (size_t);
 };
 
 #endif // FILEMAN_H

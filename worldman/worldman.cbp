@@ -26,9 +26,16 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="worldman.h" />
-		<Unit filename="worldman_generator.cpp" />
-		<Unit filename="worldman_main.cpp" />
+		<Unit filename="include/minor.h" />
+		<Unit filename="include/moon.h" />
+		<Unit filename="include/planet.h" />
+		<Unit filename="include/star.h" />
+		<Unit filename="include/worldman.h" />
+		<Unit filename="src/worldman_minor.cpp" />
+		<Unit filename="src/worldman_moon.cpp" />
+		<Unit filename="src/worldman_planet.cpp" />
+		<Unit filename="src/worldman_star.cpp" />
+		<Unit filename="worldman.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

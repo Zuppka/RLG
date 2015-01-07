@@ -33,7 +33,7 @@ namespace Json {
 #else
 #define ALIGNAS(byte_alignment)
 #endif
-static const unsigned char ALIGNAS(8) kNull[sizeof(Value)] = {0};
+static const unsigned char ALIGNAS(8) kNull[sizeof(Value)] = { 0 };
 const unsigned char& kNullRef = kNull[0];
 const Value& Value::null = reinterpret_cast<const Value&>(kNullRef);
 
@@ -83,7 +83,7 @@ static inline bool InRange(double d, T min, U max) {
  *               computed using strlen(value).
  * @return Pointer on the duplicate instance of string.
  */
-static inline char *duplicateStringValue(const char *value,
+static inline char* duplicateStringValue(const char* value,
                                          unsigned int length = unknown) {
   if (length == unknown)
     length = (unsigned int)strlen(value);
@@ -93,7 +93,7 @@ static inline char *duplicateStringValue(const char *value,
   if (length >= (unsigned)Value::maxInt)
     length = Value::maxInt - 1;
 
-  char *newString = static_cast<char *>(malloc(length + 1));
+  char* newString = static_cast<char*>(malloc(length + 1));
   JSON_ASSERT_MESSAGE(newString != 0,
                       "in Json::Value::duplicateStringValue(): "
                       "Failed to allocate string value buffer");
@@ -104,9 +104,7 @@ static inline char *duplicateStringValue(const char *value,
 
 /** Free the string duplicated by duplicateStringValue().
  */
-static inline void releaseStringValue(char *value) {
-  free(value);
-}
+static inline void releaseStringValue(char* value) { free(value); }
 
 } // namespace Json
 
@@ -143,7 +141,7 @@ Value::CommentInfo::~CommentInfo() {
     releaseStringValue(comment_);
 }
 
-void Value::CommentInfo::setComment(const char *text) {
+void Value::CommentInfo::setComment(const char* text) {
   if (comment_)
     releaseStringValue(comment_);
   JSON_ASSERT(text != 0);
@@ -168,41 +166,41 @@ void Value::CommentInfo::setComment(const char *text) {
 
 Value::CZString::CZString(ArrayIndex index) : cstr_(0), index_(index) {}
 
-Value::CZString::CZString(const char *cstr, DuplicationPolicy allocate)
+Value::CZString::CZString(const char* cstr, DuplicationPolicy allocate)
     : cstr_(allocate == duplicate ? duplicateStringValue(cstr) : cstr),
       index_(allocate) {}
 
-Value::CZString::CZString(const CZString &other)
+Value::CZString::CZString(const CZString& other)
     : cstr_(other.index_ != noDuplication && other.cstr_ != 0
                 ? duplicateStringValue(other.cstr_)
                 : other.cstr_),
       index_(other.cstr_
-                 ? (other.index_ == noDuplication ? noDuplication : duplicate)
+                 ? static_cast<ArrayIndex>(other.index_ == noDuplication
+                     ? noDuplication : duplicate)
                  : other.index_) {}
 
 Value::CZString::~CZString() {
   if (cstr_ && index_ == duplicate)
-    releaseStringValue(const_cast<char *>(cstr_));
+    releaseStringValue(const_cast<char*>(cstr_));
 }
 
-void Value::CZString::swap(CZString &other) {
+void Value::CZString::swap(CZString& other) {
   std::swap(cstr_, other.cstr_);
   std::swap(index_, other.index_);
 }
 
-Value::CZString &Value::CZString::operator=(const CZString &other) {
-  CZString temp(other);
-  swap(temp);
+Value::CZString& Value::CZString::operator=(CZString other) {
+  swap(other);
   return *this;
 }
 
-bool Value::CZString::operator<(const CZString &other) const {
+bool Value::CZString::operator<(const CZString& other) const {
   if (cstr_)
     return strcmp(cstr_, other.cstr_) < 0;
   return index_ < other.index_;
 }
 
-bool Value::CZString::operator==(const CZString &other) const {
+bool Value::CZString::operator==(const CZString& other) const {
   if (cstr_)
     return strcmp(cstr_, other.cstr_) == 0;
   return index_ == other.index_;
@@ -210,7 +208,7 @@ bool Value::CZString::operator==(const CZString &other) const {
 
 ArrayIndex Value::CZString::index() const { return index_; }
 
-const char *Value::CZString::c_str() const { return cstr_; }
+const char* Value::CZString::c_str() const { return cstr_; }
 
 bool Value::CZString::isStaticString() const { return index_ == noDuplication; }
 
@@ -228,14 +226,8 @@ bool Value::CZString::isStaticString() const { return index_ == noDuplication; }
  * memset( this, 0, sizeof(Value) )
  * This optimization is used in ValueInternalMap fast allocator.
  */
-Value::Value(ValueType type)
-    : type_(type), allocated_(false)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
+Value::Value(ValueType type) {
+  initBasic(type);
   switch (type) {
   case nullValue:
     break;
@@ -270,134 +262,66 @@ Value::Value(ValueType type)
   }
 }
 
-Value::Value(UInt value)
-    : type_(uintValue), allocated_(false)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
+Value::Value(Int value) {
+  initBasic(intValue);
+  value_.int_ = value;
+}
+
+Value::Value(UInt value) {
+  initBasic(uintValue);
   value_.uint_ = value;
 }
-
-Value::Value(Int value)
-    : type_(intValue), allocated_(false)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
-  value_.int_ = value;
-}
-
 #if defined(JSON_HAS_INT64)
-Value::Value(Int64 value)
-    : type_(intValue), allocated_(false)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
+Value::Value(Int64 value) {
+  initBasic(intValue);
   value_.int_ = value;
 }
-
-Value::Value(UInt64 value)
-    : type_(uintValue), allocated_(false)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
+Value::Value(UInt64 value) {
+  initBasic(uintValue);
   value_.uint_ = value;
 }
 #endif // defined(JSON_HAS_INT64)
 
-Value::Value(double value)
-    : type_(realValue), allocated_(false)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
+Value::Value(double value) {
+  initBasic(realValue);
   value_.real_ = value;
 }
 
-Value::Value(const char *value)
-    : type_(stringValue), allocated_(true)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
+Value::Value(const char* value) {
+  initBasic(stringValue, true);
   value_.string_ = duplicateStringValue(value);
 }
 
-Value::Value(const char *beginValue, const char *endValue)
-    : type_(stringValue), allocated_(true)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
+Value::Value(const char* beginValue, const char* endValue) {
+  initBasic(stringValue, true);
   value_.string_ =
       duplicateStringValue(beginValue, (unsigned int)(endValue - beginValue));
 }
 
-Value::Value(const std::string &value)
-    : type_(stringValue), allocated_(true)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
+Value::Value(const std::string& value) {
+  initBasic(stringValue, true);
   value_.string_ =
       duplicateStringValue(value.c_str(), (unsigned int)value.length());
 }
 
-Value::Value(const StaticString &value)
-    : type_(stringValue), allocated_(false)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
-  value_.string_ = const_cast<char *>(value.c_str());
+Value::Value(const StaticString& value) {
+  initBasic(stringValue);
+  value_.string_ = const_cast<char*>(value.c_str());
 }
 
 #ifdef JSON_USE_CPPTL
-Value::Value(const CppTL::ConstString &value)
-    : type_(stringValue), allocated_(true)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
+Value::Value(const CppTL::ConstString& value) {
+  initBasic(stringValue, true);
   value_.string_ = duplicateStringValue(value, value.length());
 }
 #endif
 
-Value::Value(bool value)
-    : type_(booleanValue), allocated_(false)
-#ifdef JSON_VALUE_USE_INTERNAL_MAP
-      ,
-      itemIsUsed_(0)
-#endif
-      ,
-      comments_(0), start_(0), limit_(0) {
+Value::Value(bool value) {
+  initBasic(booleanValue);
   value_.bool_ = value;
 }
 
-Value::Value(const Value &other)
+Value::Value(const Value& other)
     : type_(other.type_), allocated_(false)
 #ifdef JSON_VALUE_USE_INTERNAL_MAP
       ,
@@ -441,7 +365,7 @@ Value::Value(const Value &other)
   if (other.comments_) {
     comments_ = new CommentInfo[numberOfCommentPlacement];
     for (int comment = 0; comment < numberOfCommentPlacement; ++comment) {
-      const CommentInfo &otherComment = other.comments_[comment];
+      const CommentInfo& otherComment = other.comments_[comment];
       if (otherComment.comment_)
         comments_[comment].setComment(otherComment.comment_);
     }
@@ -481,13 +405,12 @@ Value::~Value() {
     delete[] comments_;
 }
 
-Value &Value::operator=(const Value &other) {
-  Value temp(other);
-  swap(temp);
+Value& Value::operator=(Value other) {
+  swap(other);
   return *this;
 }
 
-void Value::swap(Value &other) {
+void Value::swap(Value& other) {
   ValueType temp = type_;
   type_ = other.type_;
   other.type_ = temp;
@@ -501,7 +424,7 @@ void Value::swap(Value &other) {
 
 ValueType Value::type() const { return type_; }
 
-int Value::compare(const Value &other) const {
+int Value::compare(const Value& other) const {
   if (*this < other)
     return -1;
   if (*this > other)
@@ -509,7 +432,7 @@ int Value::compare(const Value &other) const {
   return 0;
 }
 
-bool Value::operator<(const Value &other) const {
+bool Value::operator<(const Value& other) const {
   int typeDelta = type_ - other.type_;
   if (typeDelta)
     return typeDelta < 0 ? true : false;
@@ -548,13 +471,13 @@ bool Value::operator<(const Value &other) const {
   return false; // unreachable
 }
 
-bool Value::operator<=(const Value &other) const { return !(other < *this); }
+bool Value::operator<=(const Value& other) const { return !(other < *this); }
 
-bool Value::operator>=(const Value &other) const { return !(*this < other); }
+bool Value::operator>=(const Value& other) const { return !(*this < other); }
 
-bool Value::operator>(const Value &other) const { return other < *this; }
+bool Value::operator>(const Value& other) const { return other < *this; }
 
-bool Value::operator==(const Value &other) const {
+bool Value::operator==(const Value& other) const {
   // if ( type_ != other.type_ )
   // GCC 2.95.3 says:
   // attempt to take address of bit-field structure member `Json::Value::type_'
@@ -594,9 +517,9 @@ bool Value::operator==(const Value &other) const {
   return false; // unreachable
 }
 
-bool Value::operator!=(const Value &other) const { return !(*this == other); }
+bool Value::operator!=(const Value& other) const { return !(*this == other); }
 
-const char *Value::asCString() const {
+const char* Value::asCString() const {
   JSON_ASSERT_MESSAGE(type_ == stringValue,
                       "in Json::Value::asCString(): requires stringValue");
   return value_.string_;
@@ -914,7 +837,7 @@ void Value::resize(ArrayIndex newSize) {
 #endif
 }
 
-Value &Value::operator[](ArrayIndex index) {
+Value& Value::operator[](ArrayIndex index) {
   JSON_ASSERT_MESSAGE(
       type_ == nullValue || type_ == arrayValue,
       "in Json::Value::operator[](ArrayIndex): requires arrayValue");
@@ -934,14 +857,14 @@ Value &Value::operator[](ArrayIndex index) {
 #endif
 }
 
-Value &Value::operator[](int index) {
+Value& Value::operator[](int index) {
   JSON_ASSERT_MESSAGE(
       index >= 0,
       "in Json::Value::operator[](int index): index cannot be negative");
   return (*this)[ArrayIndex(index)];
 }
 
-const Value &Value::operator[](ArrayIndex index) const {
+const Value& Value::operator[](ArrayIndex index) const {
   JSON_ASSERT_MESSAGE(
       type_ == nullValue || type_ == arrayValue,
       "in Json::Value::operator[](ArrayIndex)const: requires arrayValue");
@@ -954,23 +877,34 @@ const Value &Value::operator[](ArrayIndex index) const {
     return null;
   return (*it).second;
 #else
-  Value *value = value_.array_->find(index);
+  Value* value = value_.array_->find(index);
   return value ? *value : null;
 #endif
 }
 
-const Value &Value::operator[](int index) const {
+const Value& Value::operator[](int index) const {
   JSON_ASSERT_MESSAGE(
       index >= 0,
       "in Json::Value::operator[](int index) const: index cannot be negative");
   return (*this)[ArrayIndex(index)];
 }
 
-Value &Value::operator[](const char *key) {
+Value& Value::operator[](const char* key) {
   return resolveReference(key, false);
 }
 
-Value &Value::resolveReference(const char *key, bool isStatic) {
+void Value::initBasic(ValueType type, bool allocated) {
+  type_ = type;
+  allocated_ = allocated;
+#ifdef JSON_VALUE_USE_INTERNAL_MAP
+  itemIsUsed_ = 0;
+#endif
+  comments_ = 0;
+  start_ = 0;
+  limit_ = 0;
+}
+
+Value& Value::resolveReference(const char* key, bool isStatic) {
   JSON_ASSERT_MESSAGE(
       type_ == nullValue || type_ == objectValue,
       "in Json::Value::resolveReference(): requires objectValue");
@@ -985,21 +919,21 @@ Value &Value::resolveReference(const char *key, bool isStatic) {
 
   ObjectValues::value_type defaultValue(actualKey, null);
   it = value_.map_->insert(it, defaultValue);
-  Value &value = (*it).second;
+  Value& value = (*it).second;
   return value;
 #else
   return value_.map_->resolveReference(key, isStatic);
 #endif
 }
 
-Value Value::get(ArrayIndex index, const Value &defaultValue) const {
-  const Value *value = &((*this)[index]);
+Value Value::get(ArrayIndex index, const Value& defaultValue) const {
+  const Value* value = &((*this)[index]);
   return value == &null ? defaultValue : *value;
 }
 
 bool Value::isValidIndex(ArrayIndex index) const { return index < size(); }
 
-const Value &Value::operator[](const char *key) const {
+const Value& Value::operator[](const char* key) const {
   JSON_ASSERT_MESSAGE(
       type_ == nullValue || type_ == objectValue,
       "in Json::Value::operator[](char const*)const: requires objectValue");
@@ -1012,45 +946,45 @@ const Value &Value::operator[](const char *key) const {
     return null;
   return (*it).second;
 #else
-  const Value *value = value_.map_->find(key);
+  const Value* value = value_.map_->find(key);
   return value ? *value : null;
 #endif
 }
 
-Value &Value::operator[](const std::string &key) {
+Value& Value::operator[](const std::string& key) {
   return (*this)[key.c_str()];
 }
 
-const Value &Value::operator[](const std::string &key) const {
+const Value& Value::operator[](const std::string& key) const {
   return (*this)[key.c_str()];
 }
 
-Value &Value::operator[](const StaticString &key) {
+Value& Value::operator[](const StaticString& key) {
   return resolveReference(key, true);
 }
 
 #ifdef JSON_USE_CPPTL
-Value &Value::operator[](const CppTL::ConstString &key) {
+Value& Value::operator[](const CppTL::ConstString& key) {
   return (*this)[key.c_str()];
 }
 
-const Value &Value::operator[](const CppTL::ConstString &key) const {
+const Value& Value::operator[](const CppTL::ConstString& key) const {
   return (*this)[key.c_str()];
 }
 #endif
 
-Value &Value::append(const Value &value) { return (*this)[size()] = value; }
+Value& Value::append(const Value& value) { return (*this)[size()] = value; }
 
-Value Value::get(const char *key, const Value &defaultValue) const {
-  const Value *value = &((*this)[key]);
+Value Value::get(const char* key, const Value& defaultValue) const {
+  const Value* value = &((*this)[key]);
   return value == &null ? defaultValue : *value;
 }
 
-Value Value::get(const std::string &key, const Value &defaultValue) const {
+Value Value::get(const std::string& key, const Value& defaultValue) const {
   return get(key.c_str(), defaultValue);
 }
 
-Value Value::removeMember(const char *key) {
+Value Value::removeMember(const char* key) {
   JSON_ASSERT_MESSAGE(type_ == nullValue || type_ == objectValue,
                       "in Json::Value::removeMember(): requires objectValue");
   if (type_ == nullValue)
@@ -1064,7 +998,7 @@ Value Value::removeMember(const char *key) {
   value_.map_->erase(it);
   return old;
 #else
-  Value *value = value_.map_->find(key);
+  Value* value = value_.map_->find(key);
   if (value) {
     Value old(*value);
     value_.map_.remove(key);
@@ -1075,28 +1009,28 @@ Value Value::removeMember(const char *key) {
 #endif
 }
 
-Value Value::removeMember(const std::string &key) {
+Value Value::removeMember(const std::string& key) {
   return removeMember(key.c_str());
 }
 
 #ifdef JSON_USE_CPPTL
-Value Value::get(const CppTL::ConstString &key,
-                 const Value &defaultValue) const {
+Value Value::get(const CppTL::ConstString& key,
+                 const Value& defaultValue) const {
   return get(key.c_str(), defaultValue);
 }
 #endif
 
-bool Value::isMember(const char *key) const {
-  const Value *value = &((*this)[key]);
+bool Value::isMember(const char* key) const {
+  const Value* value = &((*this)[key]);
   return value != &null;
 }
 
-bool Value::isMember(const std::string &key) const {
+bool Value::isMember(const std::string& key) const {
   return isMember(key.c_str());
 }
 
 #ifdef JSON_USE_CPPTL
-bool Value::isMember(const CppTL::ConstString &key) const {
+bool Value::isMember(const CppTL::ConstString& key) const {
   return isMember(key.c_str());
 }
 #endif
@@ -1247,13 +1181,13 @@ bool Value::isArray() const { return type_ == arrayValue; }
 
 bool Value::isObject() const { return type_ == objectValue; }
 
-void Value::setComment(const char *comment, CommentPlacement placement) {
+void Value::setComment(const char* comment, CommentPlacement placement) {
   if (!comments_)
     comments_ = new CommentInfo[numberOfCommentPlacement];
   comments_[placement].setComment(comment);
 }
 
-void Value::setComment(const std::string &comment, CommentPlacement placement) {
+void Value::setComment(const std::string& comment, CommentPlacement placement) {
   setComment(comment.c_str(), placement);
 }
 
@@ -1408,21 +1342,21 @@ PathArgument::PathArgument() : key_(), index_(), kind_(kindNone) {}
 PathArgument::PathArgument(ArrayIndex index)
     : key_(), index_(index), kind_(kindIndex) {}
 
-PathArgument::PathArgument(const char *key)
+PathArgument::PathArgument(const char* key)
     : key_(key), index_(), kind_(kindKey) {}
 
-PathArgument::PathArgument(const std::string &key)
+PathArgument::PathArgument(const std::string& key)
     : key_(key.c_str()), index_(), kind_(kindKey) {}
 
 // class Path
 // //////////////////////////////////////////////////////////////////
 
-Path::Path(const std::string &path,
-           const PathArgument &a1,
-           const PathArgument &a2,
-           const PathArgument &a3,
-           const PathArgument &a4,
-           const PathArgument &a5) {
+Path::Path(const std::string& path,
+           const PathArgument& a1,
+           const PathArgument& a2,
+           const PathArgument& a3,
+           const PathArgument& a4,
+           const PathArgument& a5) {
   InArgs in;
   in.push_back(&a1);
   in.push_back(&a2);
@@ -1432,9 +1366,9 @@ Path::Path(const std::string &path,
   makePath(path, in);
 }
 
-void Path::makePath(const std::string &path, const InArgs &in) {
-  const char *current = path.c_str();
-  const char *end = current + path.length();
+void Path::makePath(const std::string& path, const InArgs& in) {
+  const char* current = path.c_str();
+  const char* end = current + path.length();
   InArgs::const_iterator itInArg = in.begin();
   while (current != end) {
     if (*current == '[') {
@@ -1455,7 +1389,7 @@ void Path::makePath(const std::string &path, const InArgs &in) {
     } else if (*current == '.') {
       ++current;
     } else {
-      const char *beginName = current;
+      const char* beginName = current;
       while (current != end && !strchr("[.", *current))
         ++current;
       args_.push_back(std::string(beginName, current));
@@ -1463,9 +1397,9 @@ void Path::makePath(const std::string &path, const InArgs &in) {
   }
 }
 
-void Path::addPathInArg(const std::string & /*path*/,
-                        const InArgs &in,
-                        InArgs::const_iterator &itInArg,
+void Path::addPathInArg(const std::string& /*path*/,
+                        const InArgs& in,
+                        InArgs::const_iterator& itInArg,
                         PathArgument::Kind kind) {
   if (itInArg == in.end()) {
     // Error: missing argument %d
@@ -1476,14 +1410,14 @@ void Path::addPathInArg(const std::string & /*path*/,
   }
 }
 
-void Path::invalidPath(const std::string & /*path*/, int /*location*/) {
+void Path::invalidPath(const std::string& /*path*/, int /*location*/) {
   // Error: invalid path.
 }
 
-const Value &Path::resolve(const Value &root) const {
-  const Value *node = &root;
+const Value& Path::resolve(const Value& root) const {
+  const Value* node = &root;
   for (Args::const_iterator it = args_.begin(); it != args_.end(); ++it) {
-    const PathArgument &arg = *it;
+    const PathArgument& arg = *it;
     if (arg.kind_ == PathArgument::kindIndex) {
       if (!node->isArray() || !node->isValidIndex(arg.index_)) {
         // Error: unable to resolve path (array value expected at position...
@@ -1503,10 +1437,10 @@ const Value &Path::resolve(const Value &root) const {
   return *node;
 }
 
-Value Path::resolve(const Value &root, const Value &defaultValue) const {
-  const Value *node = &root;
+Value Path::resolve(const Value& root, const Value& defaultValue) const {
+  const Value* node = &root;
   for (Args::const_iterator it = args_.begin(); it != args_.end(); ++it) {
-    const PathArgument &arg = *it;
+    const PathArgument& arg = *it;
     if (arg.kind_ == PathArgument::kindIndex) {
       if (!node->isArray() || !node->isValidIndex(arg.index_))
         return defaultValue;
@@ -1522,10 +1456,10 @@ Value Path::resolve(const Value &root, const Value &defaultValue) const {
   return *node;
 }
 
-Value &Path::make(Value &root) const {
-  Value *node = &root;
+Value& Path::make(Value& root) const {
+  Value* node = &root;
   for (Args::const_iterator it = args_.begin(); it != args_.end(); ++it) {
-    const PathArgument &arg = *it;
+    const PathArgument& arg = *it;
     if (arg.kind_ == PathArgument::kindIndex) {
       if (!node->isArray()) {
         // Error: node is not an array at position ...
@@ -1542,4 +1476,3 @@ Value &Path::make(Value &root) const {
 }
 
 } // namespace Json
-// vim: et ts=2 sts=2 sw=2 tw=0

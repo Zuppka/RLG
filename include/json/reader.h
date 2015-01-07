@@ -31,7 +31,7 @@ namespace Json {
 class JSON_API Reader {
 public:
   typedef char Char;
-  typedef const Char *Location;
+  typedef const Char* Location;
 
   /** \brief An error tagged with where in the JSON text it was encountered.
    *
@@ -53,7 +53,7 @@ public:
   /** \brief Constructs a Reader allowing the specified feature set
    * for parsing.
    */
-  Reader(const Features &features);
+  Reader(const Features& features);
 
   /** \brief Read a Value from a <a HREF="http://www.json.org">JSON</a>
    * document.
@@ -70,7 +70,7 @@ public:
    * error occurred.
    */
   bool
-  parse(const std::string &document, Value &root, bool collectComments = true);
+  parse(const std::string& document, Value& root, bool collectComments = true);
 
   /** \brief Read a Value from a <a HREF="http://www.json.org">JSON</a>
    document.
@@ -90,14 +90,14 @@ public:
    * \return \c true if the document was successfully parsed, \c false if an
    error occurred.
    */
-  bool parse(const char *beginDoc,
-             const char *endDoc,
-             Value &root,
+  bool parse(const char* beginDoc,
+             const char* endDoc,
+             Value& root,
              bool collectComments = true);
 
   /// \brief Parse from input stream.
   /// \see Json::operator>>(std::istream&, Json::Value&).
-  bool parse(std::istream &is, Value &root, bool collectComments = true);
+  bool parse(std::istream& is, Value& root, bool collectComments = true);
 
   /** \brief Returns a user friendly string that list errors in the parsed
    * document.
@@ -129,6 +129,29 @@ public:
    *         parse error and then encounters additional errors.
    */
   std::vector<StructuredError> getStructuredErrors() const;
+
+  /** \brief Add a semantic error message.
+   * \param value JSON Value location associated with the error
+   * \param message The error message.
+   * \return \c true if the error was successfully added, \c false if the
+   * Value offset exceeds the document size.
+   */
+  bool pushError(const Value& value, const std::string& message);
+
+  /** \brief Add a semantic error message with extra context.
+   * \param value JSON Value location associated with the error
+   * \param message The error message.
+   * \param extra Additional JSON Value location to contextualize the error
+   * \return \c true if the error was successfully added, \c false if either
+   * Value offset exceeds the document size.
+   */
+  bool pushError(const Value& value, const std::string& message, const Value& extra);
+
+  /** \brief Return whether there are any errors.
+   * \return \c true if there are no errors to report \c false if
+   * errors have occurred.
+   */
+  bool good() const;
 
 private:
   enum TokenType {
@@ -164,8 +187,8 @@ private:
 
   typedef std::deque<ErrorInfo> Errors;
 
-  bool expectToken(TokenType type, Token &token, const char *message);
-  bool readToken(Token &token);
+  bool expectToken(TokenType type, Token& token, const char* message);
+  bool readToken(Token& token);
   void skipSpaces();
   bool match(Location pattern, int patternLength);
   bool readComment();
@@ -174,37 +197,37 @@ private:
   bool readString();
   void readNumber();
   bool readValue();
-  bool readObject(Token &token);
-  bool readArray(Token &token);
-  bool decodeNumber(Token &token);
-  bool decodeNumber(Token &token, Value &decoded);
-  bool decodeString(Token &token);
-  bool decodeString(Token &token, std::string &decoded);
-  bool decodeDouble(Token &token);
-  bool decodeDouble(Token &token, Value &decoded);
-  bool decodeUnicodeCodePoint(Token &token,
-                              Location &current,
+  bool readObject(Token& token);
+  bool readArray(Token& token);
+  bool decodeNumber(Token& token);
+  bool decodeNumber(Token& token, Value& decoded);
+  bool decodeString(Token& token);
+  bool decodeString(Token& token, std::string& decoded);
+  bool decodeDouble(Token& token);
+  bool decodeDouble(Token& token, Value& decoded);
+  bool decodeUnicodeCodePoint(Token& token,
+                              Location& current,
                               Location end,
-                              unsigned int &unicode);
-  bool decodeUnicodeEscapeSequence(Token &token,
-                                   Location &current,
+                              unsigned int& unicode);
+  bool decodeUnicodeEscapeSequence(Token& token,
+                                   Location& current,
                                    Location end,
-                                   unsigned int &unicode);
-  bool addError(const std::string &message, Token &token, Location extra = 0);
+                                   unsigned int& unicode);
+  bool addError(const std::string& message, Token& token, Location extra = 0);
   bool recoverFromError(TokenType skipUntilToken);
-  bool addErrorAndRecover(const std::string &message,
-                          Token &token,
+  bool addErrorAndRecover(const std::string& message,
+                          Token& token,
                           TokenType skipUntilToken);
   void skipUntilSpace();
-  Value &currentValue();
+  Value& currentValue();
   Char getNextChar();
   void
-  getLocationLineAndColumn(Location location, int &line, int &column) const;
+  getLocationLineAndColumn(Location location, int& line, int& column) const;
   std::string getLocationLineAndColumn(Location location) const;
   void addComment(Location begin, Location end, CommentPlacement placement);
-  void skipCommentTokens(Token &token);
+  void skipCommentTokens(Token& token);
 
-  typedef std::stack<Value *> Nodes;
+  typedef std::stack<Value*> Nodes;
   Nodes nodes_;
   Errors errors_;
   std::string document_;
@@ -212,7 +235,7 @@ private:
   Location end_;
   Location current_;
   Location lastValueEnd_;
-  Value *lastValue_;
+  Value* lastValue_;
   std::string commentsBefore_;
   Features features_;
   bool collectComments_;
@@ -242,7 +265,7 @@ private:
  \throw std::exception on parse error.
  \see Json::operator<<()
 */
-JSON_API std::istream &operator>>(std::istream &, Value &);
+JSON_API std::istream& operator>>(std::istream&, Value&);
 
 } // namespace Json
 
