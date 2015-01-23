@@ -1,8 +1,1 @@
 # depslib dependency file v1.0
-1414813676 source:d:\bin\rlg\tileman\tileman.cpp
-	<stdlib.h>
-	<stdio.h>
-	"tileman.h"
-
-1414813669 d:\bin\rlg\tileman\tileman.h
-

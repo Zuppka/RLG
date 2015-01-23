@@ -1,0 +1,25 @@
+/*
+// All the strings used in the options below
+//std::string optionsType[6] = {"Asteroid/Comet", "Dwarf Planet/Moon", "Terrestrial Planet", "Gas Giant", "Star", "Compact Objects"};
+
+std::string optionsSub1[6] = {"Ice Comet", "Iron Asteroid", "Carboneous Asteroid", "???", "???", "???"};
+std::string optionsSub2[6] = {"Random Dwarf Planet", "Ice Dwarf Planet", "Barren Dwarf Planet", "???", "???", "???"};
+std::string optionsSub3[7] = {"Random Planet", "Terrestrial Planet", "Volcanic Planet", "Oceanic Planet", "Barren Planet", "Arctic Planet", "Desert Planet"};
+std::string optionsSub4[6] = {"Random Gas Giant", "Hydrogen Gas Giant", "Ice Giant", "Hot Jupiter", "Super Jupiter", "Gas Dwarf"};
+std::string optionsSub5[6] = {"Random Star", "Main Sequence Star", "Red Giant Star", "Red Supergiant Star", "Red Dwarf", "Brown Dwarf"};
+std::string optionsSub6[6] = {"White Dwarf", "Neutron Star", "Quark Star", "Black Hole", "SMBH", "???"};
+*/
+
+/*
+// Verbose information
+std::ofstream output;
+output.open ("output.txt", std::ofstream::app);
+output << "Description: The planet orbits a star of luminosity " << s_luminosity / SOL_LUMINOSITY << " L_sol and mass of " << s_mass / SOL_MASS << " M_sol. ";
+output << "The planet's semi-major axis is " << p_dist / AU << " AU and has a mass of " << p_mass / EARTH_MASS << " M_earth with a gravitational acceleration of " << p_gravity / EARTH_GRAV << " G. ";
+output << "It takes the planet " << p_period << " days to orbit its star. The solar constant at the plant is " << p_solarConst << " W / m^2. ";
+output << "The plant has a " << p_coreComp << "  core. The " << p_atmif (type == 2) {
+p_dist = data[entID]["p_dist"].asDouble();Dens << " atmosphere composed primarily of " << p_atmComp << " and the pressure is about " << p_pressure / 1e5 << " bar. ";
+output << "The average surface temperature of the planet is " << p_temp << " K (" << p_temp - 273 << " C).\n\n";
+output.close();
+*/
+

@@ -6,50 +6,55 @@
 1420498572 d:\bin\rlg\worldman\include\minor.h
 	"worldman.h"
 
-1420601692 d:\bin\rlg\worldman\include\worldman.h
+1421713844 d:\bin\rlg\worldman\include\worldman.h
 	<cstdio>
 	<iostream>
 
-1420568040 source:d:\bin\rlg\worldman\src\worldman_moon.cpp
+1421712446 source:d:\bin\rlg\worldman\src\worldman_moon.cpp
 	"..\include\moon.h"
 	"..\include\worldman.h"
+	<toolman.h>
 
 1420567787 d:\bin\rlg\worldman\include\moon.h
 	"worldman.h"
 	"planet.h"
 
-1420663333 d:\bin\rlg\worldman\include\planet.h
+1421528755 d:\bin\rlg\worldman\include\planet.h
 	"worldman.h"
 	"star.h"
 
-1420568136 d:\bin\rlg\worldman\include\star.h
+1421528756 d:\bin\rlg\worldman\include\star.h
 	"worldman.h"
 
-1420663478 source:d:\bin\rlg\worldman\src\worldman_planet.cpp
+1421712420 source:d:\bin\rlg\worldman\src\worldman_planet.cpp
 	"..\include\planet.h"
 	"..\include\worldman.h"
+	<toolman.h>
 	<cstdio>
 	<cmath>
 
-1420660961 source:d:\bin\rlg\worldman\src\worldman_star.cpp
+1421712434 source:d:\bin\rlg\worldman\src\worldman_star.cpp
 	"..\include\star.h"
 	"..\include\worldman.h"
+	<toolman.h>
 	<cstdio>
 	<cmath>
 
-1420663361 source:d:\bin\rlg\worldman\worldman.cpp
+1421778897 source:d:\bin\rlg\worldman\worldman.cpp
 	"include\worldman.h"
 	"include\star.h"
 	"include\planet.h"
 	"include\moon.h"
+	<toolman.h>
 	<fileman.h>
+	<cmath>
+	<cstdlib>
 	<cstdio>
 	<cstring>
-	<ctime>
+	<string>
 	<iostream>
-	<random>
 
-1420573213 d:\bin\rlg\include\fileman.h
+1421712075 d:\bin\rlg\include\fileman.h
 	<json/json.h>
 
 1420479801 d:\bin\rlg\include\json\json.h
@@ -92,5 +97,8 @@
 1420479857 d:\bin\rlg\include\json\writer.h
 	"value.h"
 	<vector>
+	<string>
+
+1421804430 d:\bin\rlg\include\toolman.h
 	<string>
 

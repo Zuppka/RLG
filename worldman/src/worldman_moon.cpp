@@ -7,6 +7,7 @@ Desc: The math and logic behind the generation of moons and natural satellites a
 
 #include "..\include\moon.h"
 #include "..\include\worldman.h"
+#include <toolman.h>
 
 // Events that occur during entity geneation
 void Moon::events () {

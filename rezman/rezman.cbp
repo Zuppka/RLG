@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="tileman" />
+		<Option title="rezman" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="../bin/Debug/tileman" prefix_auto="1" extension_auto="1" />
+				<Option output="../bin/Debug/rezman" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../bin/Debug" />
 				<Option object_output="../obj" />
 				<Option type="1" />
@@ -26,8 +26,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/tileman.h" />
-		<Unit filename="tileman.cpp" />
+		<Unit filename="include/rezman.h" />
+		<Unit filename="rezman.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

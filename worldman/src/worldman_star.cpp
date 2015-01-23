@@ -7,6 +7,7 @@ Desc: The math and logic behind the generation of star and stellar mass entities
 
 #include "..\include\star.h"
 #include "..\include\worldman.h"
+#include <toolman.h>
 
 #include <cstdio>
 #include <cmath>
@@ -20,16 +21,14 @@ void Star::events () {
 
 // Generate properties for a new type 1 - Star entity
 void Star::create (size_t subtype, const Star& parent) {
-    int numStars = 1;
-    char endName = 96; // + star counter i
-    // Set the starID to the latest index entry. Planets will use this later
-    //if (numStars == 1)
-        //parentID = ent.sizeIndex;
-    //p_parentID = ent.sizeIndex;
+    char endName = 64 + counter;
 
-    name = Worldman::randName(); // Generate a random star name
-    if (numStars > 1)
-        name = name + " " + endName;
+    if (counter == 1)
+        name = randName(); // Generate a random star name
+    else
+        name = parent.name + " " + endName;
+    //if (numStars > 1)
+        //name = name + " " + endName;
 
     switch (subtype) {
         case 0:
@@ -39,7 +38,7 @@ void Star::create (size_t subtype, const Star& parent) {
             if (debugLvl)
                 printf("DEBUG: Main Sequence Star\n"); // Can range from (brown) red to blue in colour. See [10] for more info
             /* Initialize star properties */
-            numSats = Worldman::rng(0,4);
+            numSats = rng(0,4);
             radius = SOL_RADIUS;
             mass = SOL_MASS;
             temp = SOL_TEMP;

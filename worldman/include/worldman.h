@@ -1,3 +1,5 @@
+// RLG Project 2015
+
 #ifndef WORLDMAN_H
 #define WORLDMAN_H
 
@@ -29,12 +31,15 @@ class Worldman {
         std::string name;
 
         void init ();
-        int rng (int, int);
-        double rngLog(double, double);
-        std::string randName();
-
-        //virtual void events() = 0;
-        //virtual void create(size_t, const);
+        int getTypeByID (int);
+        bool saveEntity (int);
+        bool loadEntity (int, int);
+        void printEntTree(int, int, int);
+        bool printEntityInfo (int);
+        bool createEntity (int, int, int);
+        void generateStarSystem();
+        void generateStellarObject();
+        void generateManual();
 };
 
 #endif // WORLDMAN_H

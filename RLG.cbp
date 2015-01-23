@@ -48,10 +48,12 @@
 		<Unit filename="include/json/writer.h" />
 		<Unit filename="include/json_batchallocator.h" />
 		<Unit filename="include/json_tool.h" />
+		<Unit filename="include/toolman.h" />
 		<Unit filename="src/fileman.cpp" />
 		<Unit filename="src/json_reader.cpp" />
 		<Unit filename="src/json_value.cpp" />
 		<Unit filename="src/json_writer.cpp" />
+		<Unit filename="src/toolman.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

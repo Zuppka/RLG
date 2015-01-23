@@ -9,14 +9,14 @@ class Fileman {
         int debugLvl = 0;
     public:
         // JSON storage vars
-        int sizeIndex, sizeData;
-        Json::Value data, index;
+        int sizeData = 0;
+        Json::Value data;
 
         Fileman() {}
-        size_t init ();
-        size_t writeData (size_t);
-        size_t readIndex ();
-        size_t readData (size_t);
+        bool makeDir(std::string);
+        bool makeFile(std::string);
+        bool readFile(std::string);
+        bool writeFile(std::string);
 };
 
 #endif // FILEMAN_H

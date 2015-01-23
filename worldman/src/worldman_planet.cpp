@@ -7,6 +7,7 @@ Desc: The math and logic behind the generation of planets and (eventually) gas g
 
 #include "..\include\planet.h"
 #include "..\include\worldman.h"
+#include <toolman.h>
 
 #include <cstdio>
 #include <cmath>
@@ -102,7 +103,7 @@ void Planet::create (size_t subtype, const Star& parent) {
 
     /* Initialize planet properties */
     // Orbital parameters
-    dist = Worldman::rngLog(0.5, 0.85) * AU;   // Mercury 0.387, Venus 0.723, Earth 1.00, Mars 1.524, Titan 9.5
+    dist = rngLog(0.5, 0.85) * AU;   // Mercury 0.387, Venus 0.723, Earth 1.00, Mars 1.524, Titan 9.5
     /*
     if (counter == 1) {
         dist = 0.387 * AU;
@@ -134,7 +135,7 @@ void Planet::create (size_t subtype, const Star& parent) {
     escVel = sqrt(2 * gravity * radius);  // Escape velocity
 
     // Planet core composition
-    num = Worldman::rng(1, 3);
+    num = rng(1, 3);
     coreComp = coreType[num];
 
     // Other properties
@@ -158,7 +159,7 @@ void Planet::create (size_t subtype, const Star& parent) {
     albedo = 0.068;    // Bond albedo: Mercury 0.068 , Venus 0.90, Earth 0.306, Mars 0.25 [5]
     albedoCloud = 0.315; // Albedo for water vapour clouds
     emissivity = 0.96;
-    numSats = Worldman::rng(0, 3);
+    numSats = rng(0, 3);
 
     /* Planet aging and atmosphere + climate development */
     // Planet too small and too close to star for atmo
@@ -321,7 +322,7 @@ void Planet::create (size_t subtype, const Star& parent) {
     }
 
     // Determine atmosphere density category depending on pressure
-    num = Worldman::rng(2, 5);
+    num = rng(2, 5);
     atmComp = atmCompType[num]; // Nitrogen, Oxygen, Carbon Dioxide, Methane
     if (pressure > 2e6)
         atmDens = atmType[4]; // Dense
