@@ -1,0 +1,140 @@
+# depslib dependency file v1.0
+1422046726 source:d:\bin\rlg\tileman\tileman.cpp
+	"include\tileman.h"
+	"..\worldman\include\worldman.h"
+	<fileman.h>
+	<toolman.h>
+	<cstdlib>
+	<cstring>
+	<iostream>
+
+1422043524 d:\bin\rlg\tileman\include\tileman.h
+
+1422047403 d:\bin\rlg\worldman\include\worldman.h
+	<cstdio>
+	<iostream>
+
+1421528755 d:\bin\rlg\worldman\include\planet.h
+	"worldman.h"
+	"star.h"
+
+1421528756 d:\bin\rlg\worldman\include\star.h
+	"worldman.h"
+
+1421712075 d:\bin\rlg\include\fileman.h
+	<json/json.h>
+
+1420479801 d:\bin\rlg\include\json\json.h
+	"autolink.h"
+	"value.h"
+	"reader.h"
+	"writer.h"
+	"features.h"
+
+1420479742 d:\bin\rlg\include\json\autolink.h
+	"config.h"
+	<cpptl/cpptl_autolink.h>
+	"autolink.h"
+
+1420479756 d:\bin\rlg\include\json\config.h
+	<cpptl/config.h>
+
+1420479844 d:\bin\rlg\include\json\value.h
+	"forwards.h"
+	<string>
+	<vector>
+	<map>
+	<cpptl/smallmap.h>
+	<cpptl/forwards.h>
+
+1420479786 d:\bin\rlg\include\json\forwards.h
+	"config.h"
+
+1420479819 d:\bin\rlg\include\json\reader.h
+	"features.h"
+	"value.h"
+	<deque>
+	<iosfwd>
+	<stack>
+	<string>
+
+1420479774 d:\bin\rlg\include\json\features.h
+	"forwards.h"
+
+1420479857 d:\bin\rlg\include\json\writer.h
+	"value.h"
+	<vector>
+	<string>
+
+1421804430 d:\bin\rlg\include\toolman.h
+	<string>
+
+1422047425 source:d:\bin\rlg\worldman\worldman.cpp
+	"include\worldman.h"
+	<toolman.h>
+	<fileman.h>
+	<cmath>
+	<cstdlib>
+	<cstdio>
+	<cstring>
+	<string>
+	<iostream>
+
+1422091297 source:d:\bin\rlg\src\worldman\worldman.cpp
+	<modules\worldman.h>
+	<modules\toolman.h>
+	<modules\fileman.h>
+	<cmath>
+	<cstdio>
+	<cstring>
+	<string>
+
+1422084240 d:\bin\rlg\include\modules\worldman.h
+	<string>
+
+1421804430 d:\bin\rlg\include\modules\toolman.h
+	<string>
+
+1421712075 d:\bin\rlg\include\modules\fileman.h
+	<json/json.h>
+
+1422257694 source:d:\bin\rlg\src\tileman\tileman.cpp
+	<modules\tileman.h>
+	<modules\worldman.h>
+	<modules\fileman.h>
+	<modules\toolman.h>
+	<cstdio>
+	<cstring>
+	<string>
+	<iostream>
+
+1422088498 d:\bin\rlg\include\modules\tileman.h
+	<string>
+
+1422256122 source:d:\bin\rlg\src\tileman\tileman_main.cpp
+	<modules\tileman.h>
+	<modules\toolman.h>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<string>
+
+1422050445 source:d:\bin\rlg\src\worldman\worldman_minor.cpp
+	<modules\worldman.h>
+
+1422050454 source:d:\bin\rlg\src\worldman\worldman_moon.cpp
+	<modules\worldman.h>
+	<modules\toolman.h>
+
+1422050462 source:d:\bin\rlg\src\worldman\worldman_planet.cpp
+	<modules\worldman.h>
+	<modules\toolman.h>
+	<cstdio>
+	<cmath>
+
+1422050466 source:d:\bin\rlg\src\worldman\worldman_star.cpp
+	<modules\worldman.h>
+	<modules\toolman.h>
+	<cstdio>
+	<cmath>
+

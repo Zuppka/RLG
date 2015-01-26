@@ -1,0 +1,90 @@
+[
+   {
+      "entityID" : 0,
+      "type" : 1
+   },
+   {
+      "entityID" : 1,
+      "type" : 1
+   },
+   {
+      "entityID" : 2,
+      "type" : 2
+   },
+   {
+      "entityID" : 3,
+      "type" : 1
+   },
+   {
+      "entityID" : 4,
+      "type" : 2
+   },
+   {
+      "entityID" : 5,
+      "type" : 3
+   },
+   {
+      "entityID" : 6,
+      "type" : 2
+   },
+   {
+      "entityID" : 7,
+      "type" : 3
+   },
+   {
+      "entityID" : 8,
+      "type" : 3
+   },
+   {
+      "entityID" : 9,
+      "type" : 3
+   },
+   {
+      "entityID" : 10,
+      "type" : 2
+   },
+   {
+      "entityID" : 11,
+      "type" : 1
+   },
+   {
+      "entityID" : 12,
+      "type" : 2
+   },
+   {
+      "entityID" : 13,
+      "type" : 3
+   },
+   {
+      "entityID" : 14,
+      "type" : 2
+   },
+   {
+      "entityID" : 15,
+      "type" : 3
+   },
+   {
+      "entityID" : 16,
+      "type" : 2
+   },
+   {
+      "entityID" : 17,
+      "type" : 3
+   },
+   {
+      "entityID" : 18,
+      "type" : 2
+   },
+   {
+      "entityID" : 19,
+      "type" : 1
+   },
+   {
+      "entityID" : 20,
+      "type" : 2
+   },
+   {
+      "entityID" : 21,
+      "type" : 3
+   }
+]

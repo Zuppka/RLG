@@ -1,0 +1,74 @@
+[
+   {
+      "entityID" : 5,
+      "m_gravity" : 0.166,
+      "m_mass" : 0.012,
+      "m_radius" : 0.273,
+      "m_temp" : 40,
+      "name" : "Lrbcgmru 1a",
+      "parentID" : 4
+   },
+   {
+      "entityID" : 7,
+      "m_gravity" : 0.166,
+      "m_mass" : 0.012,
+      "m_radius" : 0.273,
+      "m_temp" : 40,
+      "name" : "Lrbcgmru 2a",
+      "parentID" : 6
+   },
+   {
+      "entityID" : 8,
+      "m_gravity" : 0.166,
+      "m_mass" : 0.012,
+      "m_radius" : 0.273,
+      "m_temp" : 40,
+      "name" : "Lrbcgmru 2b",
+      "parentID" : 6
+   },
+   {
+      "entityID" : 9,
+      "m_gravity" : 0.166,
+      "m_mass" : 0.012,
+      "m_radius" : 0.273,
+      "m_temp" : 40,
+      "name" : "Lrbcgmru 2c",
+      "parentID" : 6
+   },
+   {
+      "entityID" : 13,
+      "m_gravity" : 0.166,
+      "m_mass" : 0.012,
+      "m_radius" : 0.273,
+      "m_temp" : 40,
+      "name" : "Alytfjnhpl 1a",
+      "parentID" : 12
+   },
+   {
+      "entityID" : 15,
+      "m_gravity" : 0.166,
+      "m_mass" : 0.012,
+      "m_radius" : 0.273,
+      "m_temp" : 40,
+      "name" : "Alytfjnhpl 2a",
+      "parentID" : 14
+   },
+   {
+      "entityID" : 17,
+      "m_gravity" : 0.166,
+      "m_mass" : 0.012,
+      "m_radius" : 0.273,
+      "m_temp" : 40,
+      "name" : "Alytfjnhpl 3a",
+      "parentID" : 16
+   },
+   {
+      "entityID" : 21,
+      "m_gravity" : 0.166,
+      "m_mass" : 0.012,
+      "m_radius" : 0.273,
+      "m_temp" : 40,
+      "name" : "Ounx 1a",
+      "parentID" : 20
+   }
+]

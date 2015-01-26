@@ -1,0 +1,42 @@
+[
+   {
+      "Name" : "Ixmklwn",
+      "Path" : "resources\\Flora\\Soft Wood.json",
+      "RezID" : 0
+   },
+   {
+      "Name" : "Vaioajkalf",
+      "Path" : "resources\\Fauna\\Bone.json",
+      "RezID" : 1
+   },
+   {
+      "Name" : "Ytdeykuxfl",
+      "Path" : "resources\\Fauna\\Meat.json",
+      "RezID" : 2
+   },
+   {
+      "Name" : "Uszgefsijs",
+      "Path" : "resources\\Fauna\\Fibre.json",
+      "RezID" : 3
+   },
+   {
+      "Name" : "Zdv",
+      "Path" : "resources\\Chemical\\Petrochemical\\Cycloalkane.json",
+      "RezID" : 4
+   },
+   {
+      "Name" : "Vjecqwoa",
+      "Path" : "resources\\Flora\\Hard Wood.json",
+      "RezID" : 5
+   },
+   {
+      "Name" : "Ivprgfk",
+      "Path" : "resources\\Chemical\\Diatomic Gas.json",
+      "RezID" : 6
+   },
+   {
+      "Name" : "Dtmdgt",
+      "Path" : "resources\\Flora\\Cereals\\Maize.json",
+      "RezID" : 7
+   }
+]
