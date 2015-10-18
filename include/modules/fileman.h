@@ -1,22 +1,22 @@
+// RLG Project 2015
+
 #ifndef FILEMAN_H
 #define FILEMAN_H
 
 #include <json/json.h>
 
+#include <string>
+
+bool makeDir(std::string);
+bool makeFile(std::string);
+
 class Fileman {
-
-    private:
-        int debugLvl = 0;
     public:
-        // JSON storage vars
-        int sizeData = 0;
-        Json::Value data;
-
-        Fileman() {}
-        bool makeDir(std::string);
-        bool makeFile(std::string);
+        Json::Value data;   // Store the JSON data
         bool readFile(std::string);
         bool writeFile(std::string);
+    private:
+        int debugLvl = 0;
 };
 
 #endif // FILEMAN_H

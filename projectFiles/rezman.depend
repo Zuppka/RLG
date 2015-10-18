@@ -59,16 +59,32 @@
 1421804430 d:\bin\rlg\include\toolman.h
 	<string>
 
-1422086234 source:d:\bin\rlg\src\rezman\rezman_main.cpp
+1424120473 source:d:\bin\rlg\src\rezman\rezman_main.cpp
 	<modules\rezman.h>
 	<modules\toolman.h>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<string>
+
+1424125030 d:\bin\rlg\include\modules\rezman.h
+	<string>
+	<vector>
+
+1423682176 d:\bin\rlg\include\modules\toolman.h
+	<string>
+	<vector>
+
+1424125587 source:d:\bin\rlg\src\rezman\rezman.cpp
+	<modules\rezman.h>
+	<modules\toolman.h>
+	<modules\fileman.h>
 	<cstdlib>
 	<cstdio>
 	<cstring>
+	<iostream>
 
-1422086261 d:\bin\rlg\include\modules\rezman.h
-	<string>
-
-1421804430 d:\bin\rlg\include\modules\toolman.h
+1423806400 d:\bin\rlg\include\modules\fileman.h
+	<json/json.h>
 	<string>
 

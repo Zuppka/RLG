@@ -1,0 +1,120 @@
+# depslib dependency file v1.0
+1420480163 source:d:\bin\rlg\src\jsoncpp\json_reader.cpp
+	<json/assertions.h>
+	<json/reader.h>
+	<json/value.h>
+	"json_tool.h"
+	<utility>
+	<cstdio>
+	<cassert>
+	<cstring>
+	<istream>
+
+1420479727 d:\bin\rlg\include\json\assertions.h
+	<stdlib.h>
+	"config.h"
+	<stdexcept>
+
+1420479756 d:\bin\rlg\include\json\config.h
+	<cpptl/config.h>
+
+1420479819 d:\bin\rlg\include\json\reader.h
+	"features.h"
+	"value.h"
+	<deque>
+	<iosfwd>
+	<stack>
+	<string>
+
+1420479774 d:\bin\rlg\include\json\features.h
+	"forwards.h"
+
+1420479786 d:\bin\rlg\include\json\forwards.h
+	"config.h"
+
+1420479844 d:\bin\rlg\include\json\value.h
+	"forwards.h"
+	<string>
+	<vector>
+	<map>
+	<cpptl/smallmap.h>
+	<cpptl/forwards.h>
+
+1420479950 d:\bin\rlg\include\json_tool.h
+
+1420480179 source:d:\bin\rlg\src\jsoncpp\json_value.cpp
+	<json/assertions.h>
+	<json/value.h>
+	<json/writer.h>
+	"json_batchallocator.h"
+	<math.h>
+	<sstream>
+	<utility>
+	<cstring>
+	<cassert>
+	<cpptl/conststring.h>
+	<cstddef>
+	"json_internalarray.inl"
+	"json_internalmap.inl"
+	"json_valueiterator.inl"
+
+1420479857 d:\bin\rlg\include\json\writer.h
+	"value.h"
+	<vector>
+	<string>
+
+1420479938 d:\bin\rlg\include\json_batchallocator.h
+	<stdlib.h>
+	<assert.h>
+
+1420479967 d:\bin\rlg\include\json_valueiterator.inl
+
+1420480199 source:d:\bin\rlg\src\jsoncpp\json_writer.cpp
+	<json/writer.h>
+	"json_tool.h"
+	<utility>
+	<assert.h>
+	<stdio.h>
+	<string.h>
+	<sstream>
+	<iomanip>
+	<math.h>
+	<float.h>
+	<ieeefp.h>
+
+1423806232 source:d:\bin\rlg\src\modules\fileman.cpp
+	<modules/fileman.h>
+	<json/json.h>
+	<sys/stat.h>
+	<windows.h>
+	<cstdio>
+	<fstream>
+
+1423806400 d:\bin\rlg\include\modules\fileman.h
+	<json/json.h>
+	<string>
+
+1420479801 d:\bin\rlg\include\json\json.h
+	"autolink.h"
+	"value.h"
+	"reader.h"
+	"writer.h"
+	"features.h"
+
+1420479742 d:\bin\rlg\include\json\autolink.h
+	"config.h"
+	<cpptl/cpptl_autolink.h>
+	"autolink.h"
+
+1423682195 source:d:\bin\rlg\src\modules\toolman.cpp
+	<modules/toolman.h>
+	<cstdio>
+	<ctime>
+	<iostream>
+	<random>
+	<vector>
+
+1423682176 d:\bin\rlg\include\modules\toolman.h
+	<string>
+	<vector>
+

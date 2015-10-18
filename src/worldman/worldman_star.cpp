@@ -19,15 +19,17 @@ void Star::events () {
 }
 
 // Generate properties for a new type 1 - Star entity
-void Star::create (size_t subtype, const Star& parent) {
-    char endName = 64 + counter;
+void Star::create (size_t subtype, Star* parent) {
+    char endName = 64 + numStars;
 
-    if (counter == 1)
-        name = randName(); // Generate a random star name
-    else
-        name = parent.name + " " + endName;
-    //if (numStars > 1)
-        //name = name + " " + endName;
+    // Set star name, append with a number if more than one star in system
+    if (counter == 1) {
+        name = randName();  // Generate a random star name
+    }
+    else {
+        name = parent->name + " " + endName;
+        parentID = parent->entID;    // Subsequent stars are child stars of first star
+    }
 
     switch (subtype) {
         case 0:

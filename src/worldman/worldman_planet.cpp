@@ -11,6 +11,56 @@ Desc: The math and logic behind the generation of planets and (eventually) gas g
 #include <cstdio>
 #include <cmath>
 
+// Initialize all planet variables if planet is not being manually created
+void Planet::Init(size_t subtype, Star* parent) {
+    char endName;
+
+    /* NAME GENERATION */
+    // Append the star name with a number for planet name
+    if (counter == 0)
+        endName = parent->numSats + 48; // Planet added after creation
+    else
+       endName = counter + 48;          // Planet added during star creation
+    name = parent->name + " " + endName;
+
+    /* PHYSICAL PARAMETERS */
+    mass = 1.0 * EARTH_MASS;    // Mercury 0.0553, Venus 0.815, Mars 0.107, Titan 0.0225 EARTH_MASS
+    radius = 1.0 * EARTH_RADIUS; // Mercury 0.383, Venus 0.950, Mars 0.532, Titan 0.404 EARTH_RADIUS
+
+    /* ORBITAL PARAMETERS */
+    parentID = parent->entID;
+    dist = rngLog(0.5, 0.85) * AU;   // Mercury 0.387, Venus 0.723, Earth 1.00, Mars 1.524, Titan 9.5
+    numSats = rng(0, 3); // Number of moons
+
+    /* PLANET COMPOSITION */
+    coreComp = coreType[rng(1, 3)];
+
+    /* OTHER PARAMETERS */
+    magField = rng(0, 1);
+    /*
+    if (counter == 1) {
+        dist = 0.387 * AU;
+        mass = 0.0553 * EARTH_MASS;
+        radius = 0.383 * EARTH_RADIUS;
+    }
+    else if (counter == 2) {
+        dist = 0.723 * AU;
+        mass = 0.815 * EARTH_MASS;
+        radius = 0.950 * EARTH_RADIUS;
+    }
+    else if (counter == 3) {
+        dist = 1.0 * AU;
+        mass = 1.0 * EARTH_MASS;
+        radius = 1.0 * EARTH_RADIUS;
+    }
+    else if (counter == 4) {
+        dist = 1.524 * AU;
+        mass = 0.107 * EARTH_MASS;
+        radius = 0.532 * EARTH_RADIUS;
+    }
+    */
+}
+
 // Check if values are still within range
 void Planet::valueCheck() {
     // Ensure surface water does not go below 0% or above 100%
@@ -48,7 +98,7 @@ void Planet::valueCheck() {
 }
 
 // Events that occur during entity geneation
-void Planet::events () {
+void Planet::events() {
     // These events only apply to planets with atmospheres
     if (pressure > 0.0) {
         if (j <= 0.3 && surfWater < 1.0)
@@ -91,79 +141,39 @@ void Planet::events () {
     valueCheck();
 }
 
+
 // Generate properties for a new type 2 - Planet entity
-void Planet::create (size_t subtype, const Star& parent) {
-    int num;
-    double lumTemp, radTemp, radiusInit;
-    char endName = counter + 48;
-    parentID = parent.entID;
-    // Append the star name with a number for planet name ****NOTE: MAKE BETTER. Planet's are unordered***
-    name = parent.name + " " + endName;
+void Planet::create (size_t subtype, Star* parent) {
+    double lumTmp, radTmp = 0, radiusInit;
 
-    /* Initialize planet properties */
-    // Orbital parameters
-    dist = rngLog(0.5, 0.85) * AU;   // Mercury 0.387, Venus 0.723, Earth 1.00, Mars 1.524, Titan 9.5
-    /*
-    if (counter == 1) {
-        dist = 0.387 * AU;
-        mass = 0.0553 * EARTH_MASS;
-        radius = 0.383 * EARTH_RADIUS;
-    }
-    else if (counter == 2) {
-        dist = 0.723 * AU;
-        mass = 0.815 * EARTH_MASS;
-        radius = 0.950 * EARTH_RADIUS;
-    }
-    else if (counter == 3) {
-        dist = 1.0 * AU;
-        mass = 1.0 * EARTH_MASS;
-        radius = 1.0 * EARTH_RADIUS;
-    }
-    else if (counter == 4) {
-        dist = 1.524 * AU;
-        mass = 0.107 * EARTH_MASS;
-        radius = 0.532 * EARTH_RADIUS;
-    }
-    */
-    period = 2 * PI * sqrt(pow(dist, 3) / (G * parent.mass)) / 86400;
-
-    // Physical parameters
-    mass = 1.0 * EARTH_MASS;    // Mercury 0.0553, Venus 0.815, Mars 0.107, Titan 0.0225 EARTH_MASS
-    radius = 1.0 * EARTH_RADIUS; // Mercury 0.383, Venus 0.950, Mars 0.532, Titan 0.404 EARTH_RADIUS
+    /* PHYSICAL PARAMETERS */
     gravity = G * mass / (radius * radius); // Surface gravity
     escVel = sqrt(2 * gravity * radius);  // Escape velocity
-
-    // Planet core composition
-    num = rng(1, 3);
-    coreComp = coreType[num];
-
-    // Other properties
-    radiusInit = parent.radius / (round((0.042 * parent.age + 1) * 100) / 100);
-    lumTemp = 4 * PI * radiusInit * radiusInit * SIGMA * pow(parent.temp, 4);
-    solarConst = lumTemp / (4 * PI * dist * dist);
-    if (solarConst <= 0) {
-        printf("ERROR: Something probably went wrong. Solar const zero or negative!\n");
-    }
-    surfWater = 0.0;  // earth 0.71
-    surfIce = 0.0;
-    freezeTemp = 273.0;
-    age = parent.age - 0.05;    // Planet age
-    ageLife = 0.0;    // Age of first life on planet
-    hasLife = 0;  // Planet has no life to begin
-    if (counter == 3)
-        magField = 1;
-    else
-        magField = 0;   // Magnetic field created after? Keeps solar badstuff away
     // Assuming early rocky planet in all cases. Initial atmosphere parameters
     albedo = 0.068;    // Bond albedo: Mercury 0.068 , Venus 0.90, Earth 0.306, Mars 0.25 [5]
     albedoCloud = 0.315; // Albedo for water vapour clouds
     emissivity = 0.96;
-    numSats = rng(0, 3);
+
+    /* ORBITAL PARAMETERS */
+    period = 2 * PI * sqrt(pow(dist, 3) / (G * parent->mass)) / 86400;
+
+    /* OTHER PARAMTERS */
+    radiusInit = parent->radius / (round((0.042 * parent->age + 1) * 100) / 100);
+    lumTmp = 4 * PI * radiusInit * radiusInit * SIGMA * pow(parent->temp, 4);
+    solarConst = lumTmp / (4 * PI * dist * dist);
+    if (solarConst <= 0)
+        printf("ERROR: Something probably went wrong. Solar const zero or negative!\n");
+    surfWater = 0.0;  // earth 0.71
+    surfIce = 0.0;
+    freezeTemp = 273.0;
+    age = parent->age - 0.05;    // Planet age
+    ageLife = 0.0;    // Age of first life on planet
+    hasLife = 0;  // Planet has no life to begin
 
     /* Planet aging and atmosphere + climate development */
     // Planet too small and too close to star for atmo
-    // printf("Min: %.2f Max: %.2f Grav: %.3f \n\n", parent.habitable_min / AU, parent.habitable_max / AU, gravity);
-    if (dist < parent.habitable_min && gravity < 5) {
+    // printf("Min: %.2f Max: %.2f Grav: %.3f \n\n", parent->habitable_min / AU, parent->habitable_max / AU, gravity);
+    if (dist < parent->habitable_min && gravity < 5) {
         pressure = 0.0;
         atmDens = atmType[1].c_str(); // Tenuous
     }
@@ -183,7 +193,7 @@ void Planet::create (size_t subtype, const Star& parent) {
         emissivity = emissSurf + emissCloud - greenhouseEff;
     }
 
-
+    // Calculate initial temperature
     temp = pow(solarConst * (1 - albedo) / (4 * SIGMA * emissivity), 0.25);    // 70% effective early star. Recalculate temperature
     cloudFactor = 0.65; // Increase the significance of clouds in cooling
 
@@ -198,13 +208,13 @@ void Planet::create (size_t subtype, const Star& parent) {
             printf("Age: %.2f SurfWater: %.2f%% SurfIce: %.2f%%\n\n", j, surfWater * 100, surfIce * 100);
         }
         // Star aging with planet for simulation
-        if (parent.age > 0 && parent.age <= 8) {
+        if (parent->age > 0 && parent->age <= 8) {
             // Radius increases over time according to age and stellar class
-            radTemp = (round((0.042 * j + 1) * 100) / 100) * radiusInit;  // u = 0.042 * j + 1, rounded to nearest hundredth
+            radTmp = (round((0.042 * j + 1) * 100) / 100) * radiusInit;  // u = 0.042 * j + 1, rounded to nearest hundredth
         }
         // Entering red giant phase for main sequence?
-        else if (parent.age > 8) {
-            radTemp = (0.1835 * j * j - 3.431 * j + 17.52) * radiusInit; //y = 0.1835*j^2 - 3.431*j + 17.52
+        else if (parent->age > 8) {
+            radTmp = (0.1835 * j * j - 3.431 * j + 17.52) * radiusInit; //y = 0.1835*j^2 - 3.431*j + 17.52
         }
 
         // Introduce random events
@@ -304,8 +314,8 @@ void Planet::create (size_t subtype, const Star& parent) {
                 boilTemp = freezeTemp;
         }
         // Update luminosity and solar constant as star radius increases
-        lumTemp = 4 * PI * radTemp * radTemp * SIGMA * pow(parent.temp, 4);
-        solarConst = lumTemp / (4 * PI * dist * dist);
+        lumTmp = 4 * PI * radTmp * radTmp * SIGMA * pow(parent->temp, 4);
+        solarConst = lumTmp / (4 * PI * dist * dist);
         // Recalculate the planet's current temperature
         temp = pow(solarConst * (1 - albedo) / (4 * SIGMA * emissivity), 0.25);    // Recalculate the planet temperature. Using 1/4 ratio for A_abs/A_rad
 
@@ -321,8 +331,7 @@ void Planet::create (size_t subtype, const Star& parent) {
     }
 
     // Determine atmosphere density category depending on pressure
-    num = rng(2, 5);
-    atmComp = atmCompType[num]; // Nitrogen, Oxygen, Carbon Dioxide, Methane
+    atmComp = atmCompType[rng(2, 5)]; // Nitrogen, Oxygen, Carbon Dioxide, Methane
     if (pressure > 2e6)
         atmDens = atmType[4]; // Dense
     else if (pressure > 2e4)

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="..\src\netman\netman_main.cpp" open="0" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="4407" topLine="102" />
+		</Cursor>
+		<Folding>
+			<Collapse line="109" />
+		</Folding>
+	</File>
+	<File name="..\include\modules\netman.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="14896" topLine="99" />
+		</Cursor>
+		<Folding>
+			<Collapse line="41" />
+			<Collapse line="72" />
+			<Collapse line="81" />
+			<Collapse line="88" />
+			<Collapse line="93" />
+			<Collapse line="115" />
+		</Folding>
+	</File>
+</CodeBlocks_layout_file>

@@ -16,10 +16,10 @@ void Moon::events () {
 }
 
 // Generate properties for a new type 3 - Moon/satellite entity
-void Moon::create (size_t subtype, const Planet& parent) {
-    parentID = parent.entID;
+void Moon::create (size_t subtype, Planet* parent) {
+    parentID = parent->entID;
     char endName = counter + 96;
-    name = parent.name + endName;
+    name = parent->name + endName;
 
     mass = 7.377e22; // Mass of the Moon
     radius = 1.737e6; // Radius of the Moon

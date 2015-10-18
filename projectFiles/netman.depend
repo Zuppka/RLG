@@ -1,0 +1,20 @@
+# depslib dependency file v1.0
+1435083396 source:d:\bin\rlg\src\netman\netman_main.cpp
+	"modules\netman.h"
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	<string>
+	<iostream>
+	<unistd.h>
+
+1435083432 d:\bin\rlg\include\modules\netman.h
+	<winsock.h>
+	<sys/socket.h>
+	<netinet/in.h>
+	<fcntl.h>
+	<stdio.h>
+	<assert.h>
+	<vector>
+	<list>
+

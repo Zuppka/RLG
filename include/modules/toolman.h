@@ -4,6 +4,7 @@
 #define TOOLMAN_H
 
 #include <string>
+#include <vector>
 
 // Random number and name generators
 int rng(int, int);
@@ -12,7 +13,7 @@ std::string randName();
 
 // Useful tools
 double deciTrunc (double, int);
-void printList (std::string[], int);
+void printList (std::vector<std::string>, int);
 int checkValue (int, int);
 
 #endif // TOOLMAN_H

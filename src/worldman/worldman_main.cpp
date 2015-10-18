@@ -26,12 +26,13 @@ Useful Links
 #include <cstdlib>
 #include <cstring>
 #include <string>
+#include <vector>
 
 // Main program
 int main(int argc, char *argv[]) {
     Worldman ent;
     int option = 0, arraySize, entID;
-    std::string optionsType[5] = {"Generate Star System", "Generate Stellar Object", "Manual Generation", "Load Info", "Exit"};
+    std::vector <std::string> optionsType = {"Generate Star System", "Generate Stellar Object", "Manual Generation", "Load Info", "Exit"};
 
     // Create initial data files
     ent.init();
@@ -41,7 +42,7 @@ int main(int argc, char *argv[]) {
         while(option != 5) {
             // Walk user through creation process
             printf("\nCreating new space object. Select option:\n");
-            arraySize = sizeof(optionsType) / sizeof(optionsType[0]);   // Byte size of array divided by bytes per entry
+            arraySize = optionsType.size();   // Byte size of array divided by bytes per entry
             printList(optionsType, arraySize);
             option = checkValue(0, arraySize - 1);
 

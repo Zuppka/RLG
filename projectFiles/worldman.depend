@@ -50,22 +50,22 @@
 1421712075 d:\bin\rlg\include\fileman.h
 	<json/json.h>
 
-1420479801 d:\bin\rlg\include\json\json.h
+1420483401 d:\bin\rlg\include\json\json.h
 	"autolink.h"
 	"value.h"
 	"reader.h"
 	"writer.h"
 	"features.h"
 
-1420479742 d:\bin\rlg\include\json\autolink.h
+1420483342 d:\bin\rlg\include\json\autolink.h
 	"config.h"
 	<cpptl/cpptl_autolink.h>
 	"autolink.h"
 
-1420479756 d:\bin\rlg\include\json\config.h
+1420483356 d:\bin\rlg\include\json\config.h
 	<cpptl/config.h>
 
-1420479844 d:\bin\rlg\include\json\value.h
+1420483444 d:\bin\rlg\include\json\value.h
 	"forwards.h"
 	<string>
 	<vector>
@@ -73,10 +73,10 @@
 	<cpptl/smallmap.h>
 	<cpptl/forwards.h>
 
-1420479786 d:\bin\rlg\include\json\forwards.h
+1420483386 d:\bin\rlg\include\json\forwards.h
 	"config.h"
 
-1420479819 d:\bin\rlg\include\json\reader.h
+1420483419 d:\bin\rlg\include\json\reader.h
 	"features.h"
 	"value.h"
 	<deque>
@@ -84,10 +84,10 @@
 	<stack>
 	<string>
 
-1420479774 d:\bin\rlg\include\json\features.h
+1420483374 d:\bin\rlg\include\json\features.h
 	"forwards.h"
 
-1420479857 d:\bin\rlg\include\json\writer.h
+1420483457 d:\bin\rlg\include\json\writer.h
 	"value.h"
 	<vector>
 	<string>
@@ -95,7 +95,7 @@
 1421804430 d:\bin\rlg\include\toolman.h
 	<string>
 
-1422084242 source:d:\bin\rlg\src\worldman\worldman.cpp
+1437414444 source:d:\bin\rlg\src\worldman\worldman.cpp
 	<modules\worldman.h>
 	<modules\toolman.h>
 	<modules\fileman.h>
@@ -104,40 +104,111 @@
 	<cstring>
 	<string>
 
-1422084240 d:\bin\rlg\include\modules\worldman.h
+1422087840 d:\bin\rlg\include\modules\worldman.h
 	<string>
 
-1421804430 d:\bin\rlg\include\modules\toolman.h
+1423685776 d:\bin\rlg\include\modules\toolman.h
 	<string>
+	<vector>
 
-1421712075 d:\bin\rlg\include\modules\fileman.h
+1437414233 d:\bin\rlg\include\modules\fileman.h
 	<json/json.h>
+	<string>
 
-1422085492 source:d:\bin\rlg\src\worldman\worldman_main.cpp
+1437414580 source:d:\bin\rlg\src\worldman\worldman_main.cpp
 	<modules\worldman.h>
 	<modules\toolman.h>
-	<modules\fileman.h>
 	<cstdio>
 	<cstdlib>
 	<cstring>
 	<string>
+	<vector>
 
-1422050445 source:d:\bin\rlg\src\worldman\worldman_minor.cpp
+1422054045 source:d:\bin\rlg\src\worldman\worldman_minor.cpp
 	<modules\worldman.h>
 
-1422050454 source:d:\bin\rlg\src\worldman\worldman_moon.cpp
+1422054054 source:d:\bin\rlg\src\worldman\worldman_moon.cpp
 	<modules\worldman.h>
 	<modules\toolman.h>
 
-1422050462 source:d:\bin\rlg\src\worldman\worldman_planet.cpp
+1422054062 source:d:\bin\rlg\src\worldman\worldman_planet.cpp
+	<modules\worldman.h>
+	<modules\toolman.h>
+	<cstdio>
+	<cmath>
+
+1422054066 source:d:\bin\rlg\src\worldman\worldman_star.cpp
 	<modules\worldman.h>
 	<modules\toolman.h>
 	<cstdio>
 	<cmath>
 
-1422050466 source:d:\bin\rlg\src\worldman\worldman_star.cpp
-	<modules\worldman.h>
-	<modules\toolman.h>
+1437414147 source:d:\bin\rlg\src\modules\fileman.cpp
+	<modules/fileman.h>
+	<json/json.h>
+	<sys/stat.h>
+	<windows.h>
 	<cstdio>
-	<cmath>
+	<fstream>
+
+1423685795 source:d:\bin\rlg\src\modules\toolman.cpp
+	<modules/toolman.h>
+	<cstdio>
+	<ctime>
+	<iostream>
+	<random>
+	<vector>
+
+1420483763 source:d:\bin\rlg\src\jsoncpp\json_reader.cpp
+	<json/assertions.h>
+	<json/reader.h>
+	<json/value.h>
+	"json_tool.h"
+	<utility>
+	<cstdio>
+	<cassert>
+	<cstring>
+	<istream>
+
+1420483327 d:\bin\rlg\include\json\assertions.h
+	<stdlib.h>
+	"config.h"
+	<stdexcept>
+
+1420483550 d:\bin\rlg\include\json_tool.h
+
+1420483779 source:d:\bin\rlg\src\jsoncpp\json_value.cpp
+	<json/assertions.h>
+	<json/value.h>
+	<json/writer.h>
+	"json_batchallocator.h"
+	<math.h>
+	<sstream>
+	<utility>
+	<cstring>
+	<cassert>
+	<cpptl/conststring.h>
+	<cstddef>
+	"json_internalarray.inl"
+	"json_internalmap.inl"
+	"json_valueiterator.inl"
+
+1420483538 d:\bin\rlg\include\json_batchallocator.h
+	<stdlib.h>
+	<assert.h>
+
+1420483567 d:\bin\rlg\include\json_valueiterator.inl
+
+1420483799 source:d:\bin\rlg\src\jsoncpp\json_writer.cpp
+	<json/writer.h>
+	"json_tool.h"
+	<utility>
+	<assert.h>
+	<stdio.h>
+	<string.h>
+	<sstream>
+	<iomanip>
+	<math.h>
+	<float.h>
+	<ieeefp.h>
 

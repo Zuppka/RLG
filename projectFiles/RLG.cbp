@@ -8,21 +8,19 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="../bin/Debug/RLG" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
+				<Option working_dir="../bin/Debug/" />
 				<Option object_output="../obj/Debug/" />
-				<Option type="2" />
+				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-std=c++11" />
 					<Add option="-g" />
-					<Add directory="../include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
 				<Option output="../bin/Release/RLG" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
+				<Option working_dir="../bin/Release/" />
 				<Option object_output="../obj/Release/" />
-				<Option type="2" />
+				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
@@ -33,32 +31,57 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-std=gnu++11" />
 			<Add option="-Wall" />
-			<Add option="-fexceptions" />
-			<Add directory="worldman/json" />
+			<Add option="-DSFML_STATIC" />
+			<Add directory="../include" />
 		</Compiler>
-		<Unit filename="../include/json/assertions.h" />
-		<Unit filename="../include/json/autolink.h" />
-		<Unit filename="../include/json/config.h" />
-		<Unit filename="../include/json/features.h" />
-		<Unit filename="../include/json/forwards.h" />
-		<Unit filename="../include/json/json.h" />
-		<Unit filename="../include/json/reader.h" />
-		<Unit filename="../include/json/value.h" />
-		<Unit filename="../include/json/writer.h" />
-		<Unit filename="../include/json_batchallocator.h" />
-		<Unit filename="../include/json_tool.h" />
+		<Linker>
+			<Add library="libimm32" />
+			<Add library="libimgui-sfml" />
+			<Add library="sfml-graphics-s" />
+			<Add library="sfml-network-s" />
+			<Add library="sfml-window-s" />
+			<Add library="sfml-system-s" />
+			<Add library="jpeg" />
+			<Add library="freetype" />
+			<Add library="ws2_32" />
+			<Add library="opengl32" />
+			<Add library="gdi32" />
+			<Add library="winmm" />
+			<Add directory="../lib" />
+		</Linker>
 		<Unit filename="../include/modules/fileman.h" />
+		<Unit filename="../include/modules/mapman.h" />
+		<Unit filename="../include/modules/rezman.h" />
 		<Unit filename="../include/modules/toolman.h" />
+		<Unit filename="../include/modules/worldman.h" />
 		<Unit filename="../src/jsonCPP/json_reader.cpp" />
 		<Unit filename="../src/jsonCPP/json_value.cpp" />
 		<Unit filename="../src/jsonCPP/json_writer.cpp" />
+		<Unit filename="../src/mapman/mapman.cpp" />
+		<Unit filename="../src/mapman/mapman_main.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="../src/modules/fileman.cpp" />
 		<Unit filename="../src/modules/toolman.cpp" />
+		<Unit filename="../src/rezman/rezman.cpp" />
+		<Unit filename="../src/rezman/rezman_main.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="../src/rlg_main.cpp" />
+		<Unit filename="../src/worldman/worldman.cpp" />
+		<Unit filename="../src/worldman/worldman_main.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="../src/worldman/worldman_minor.cpp" />
+		<Unit filename="../src/worldman/worldman_moon.cpp" />
+		<Unit filename="../src/worldman/worldman_planet.cpp" />
+		<Unit filename="../src/worldman/worldman_star.cpp" />
 		<Extensions>
 			<code_completion />
-			<envvars />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

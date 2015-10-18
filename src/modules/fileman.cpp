@@ -14,7 +14,7 @@ Desc: Controls creating necessary files, reading, writing and displaying data
 #include <fstream>
 
 // Function for checking if a directory exists and creating it
-bool Fileman::makeDir(std::string path) {
+bool makeDir(std::string path) {
     struct stat info;
 
     // Check if directory already exists
@@ -27,7 +27,7 @@ bool Fileman::makeDir(std::string path) {
 }
 
 // Function for checking if a file exists and creating it
-bool Fileman::makeFile(std::string name) {
+bool makeFile(std::string name) {
     // Check if file doesn't already exist
     if (!std::ifstream (name)) {
         printf("Creating file \"%s\"...\n", name.c_str());
@@ -58,11 +58,9 @@ bool Fileman::readFile(std::string path) {
     parsingSuccessful = reader.parse(file, parsedFromString);
     if (parsingSuccessful) {
         data = parsedFromString;
-        sizeData = data.size();
     }
     // If file was opened but no data was read, set size to zero
     else {
-        sizeData = 0;
         if (debugLvl)
             printf("DEBUG: Blank file read.\n");
     }

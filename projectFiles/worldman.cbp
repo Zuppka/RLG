@@ -15,18 +15,20 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
-					<Add directory="../include" />
 				</Compiler>
-				<Linker>
-					<Add library="..\bin\Debug\libRLG.a" />
-				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="../include" />
 		</Compiler>
 		<Unit filename="../include/modules/worldman.h" />
+		<Unit filename="../src/jsonCPP/json_reader.cpp" />
+		<Unit filename="../src/jsonCPP/json_value.cpp" />
+		<Unit filename="../src/jsonCPP/json_writer.cpp" />
+		<Unit filename="../src/modules/fileman.cpp" />
+		<Unit filename="../src/modules/toolman.cpp" />
 		<Unit filename="../src/worldman/worldman.cpp" />
 		<Unit filename="../src/worldman/worldman_main.cpp" />
 		<Unit filename="../src/worldman/worldman_minor.cpp" />

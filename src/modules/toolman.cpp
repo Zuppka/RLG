@@ -12,6 +12,7 @@ as random number generators, value checking and printing string lists.
 #include <ctime>
 #include <iostream>
 #include <random>
+#include <vector>
 
 // Random number generator related properties
 //std::random_device rd;
@@ -61,7 +62,7 @@ double deciTrunc (double value, int precision) {
 }
 
 // Print a list from an array of strings
-void printList (std::string str[], int size) {
+void printList (std::vector<std::string> str, int size) {
     for (int i = 0; i < size; i++) {
         printf("%i - %s\n", i, str[i].c_str());
     }

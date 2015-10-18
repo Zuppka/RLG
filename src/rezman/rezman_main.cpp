@@ -16,9 +16,8 @@ Desc: Generates resources and manages resource attributes
 
 // Resource manager main
 int main(int argc, char *argv[]) {
-
     int option = 0, arraySize, entID;
-    std::string optionsType[4] = {"Generate Random", "Generate Manually", "Load Info", "Exit"};
+    std::vector <std::string> optionsType = {"Generate Random", "Generate Manually", "Load Info", "Exit"};
     Rezman rez;
 
     // Create initial data files
@@ -26,20 +25,20 @@ int main(int argc, char *argv[]) {
 
     // Check for parameters passed on program execution
     if (argc == 1) {
-        while(option != 4) {
+        while(option != 3) {
             // Walk user through creation process
             printf("\nWelcome to the Resource Manager. Select option:\n");
-            arraySize = sizeof(optionsType) / sizeof(optionsType[0]);   // Byte size of array divided by bytes per entry
+            arraySize = optionsType.size();   // Byte size of array divided by bytes per entry
             printList(optionsType, arraySize);
             option = checkValue(0, arraySize - 1);
 
             // Provide a list of options to the user so they may narrow down what they want to generate
             switch (option) {
                 case 0: // Generate a random resource
-                    rez.generateResource();
+                    rez.genRezAuto(-1, -1, -1);
                     break;
                 case 1: // Generate a resource based on user inputs
-                    rez.generateManual();
+                    rez.genRezManual();
                     break;
                 case 2: // Manual Generation
                     printf("Enter entity ID: ");
@@ -52,12 +51,12 @@ int main(int argc, char *argv[]) {
         }
     }
     else if (strcmp(argv[1], "-g") == 0 || strcmp(argv[1], "--gen") == 0) {
-        rez.generateResource();
+        rez.genRezAuto(-1, -1, -1);
         return 0;
     }
     // Enter manual entity generation
     else if (argc == 1 || strcmp(argv[1], "-m") == 0 || strcmp(argv[1], "--man") == 0) {
-        rez.generateManual();
+        rez.genRezManual();
         return 0;
     }
     // Return information on a specified entity

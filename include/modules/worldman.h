@@ -21,45 +21,31 @@
 
 // World Manager class
 class Worldman {
-    private:
-
     public:
-        // Variables common to all Worldman entities
-        int debugLvl = 0;
-        int entID, numSats, parentID, counter;
-        double radius, mass, temp, gravity, age;
-        std::string name;
-
+        Worldman() {
+            debugLvl = 0;
+            counter = 0;
+            entID = 0;
+        }
+        // Functions common to all Worldman entities
         void init();
         int getTypeByID (int);
-        bool saveEntity(int);
-        bool loadEntity(int, int);
+        void getIndex();
+        bool saveEntity(Worldman*);
+        bool loadEntity(Worldman*, int);
         void printEntTree(int, int, int);
         bool printEntityInfo(int);
-        bool createEntity(int, int, int);
         void generateStarSystem();
+        int generateEntity(int, int);
         void generateStellarObject();
         void generateManual();
-};
-
-// Star creation class
-class Star : public Worldman {
-    private:
-
-    public:
+        // Variables common to all Worldman entities
+        int type, subtype, entID, numSats, parentID, counter, debugLvl;
+        double radius, mass, temp, gravity, age;
+        std::string name;
         // Star variables
         double luminosity, habitable_min, habitable_max;
         int numStars;
-
-        void events();
-        void create(size_t, const Star&);
-};
-
-// Planet creation class
-class Planet : public Worldman {
-    private:
-
-    public:
         // Planet variables
         double dist, period, solarConst, pressure, escVel, j;
         double albedo, albedoCloud, emissivity, emissCloud, emissSurf, greenhouseEff, cloudCover, cloudFactor, surfWater, surfIce, boilTemp, freezeTemp, ageLife;
@@ -70,28 +56,63 @@ class Planet : public Worldman {
         std::string atmType[5] = {"None", "Tenuous", "Minimal", "Substantial", "Dense"};
         std::string coreType[5] = {"None", "Small Nickel-Iron", "Large Nickel-Iron", "Hydrous Silicate", "Metallic Hydrogen"};
 
+    private:
+};
+
+// Star creation class
+class Star : public Worldman {
+    public:
+        Star() {
+            type = 1;
+            subtype = 1;
+            numStars = 1;
+        }
+        // Star functions
+        void events();
+        void create(size_t, Star*);
+
+    private:
+};
+
+// Planet creation class
+class Planet : public Worldman {
+    public:
+        Planet() {
+            type = 2;
+            subtype = 0;
+        }
+        // Planet functions
+        void Init(size_t, Star*);
         void valueCheck();
         void events();
-        void create(size_t, const Star&);
+        void create(size_t, Star*);
+
+    private:
 };
 
 // Moon and natural satellite class
 class Moon : public Worldman {
-    private:
-
     public:
-        // Moon variables
+        Moon() {
+            type = 3;
+            subtype = 0;
+        }
+        // Moon functions
         void events();
-        void create(size_t, const Planet&);
+        void create(size_t, Planet*);
+        // Moon variables
+
+    private:
 };
 
 // Minor planets and bodies class
 class Minor : public Worldman {
-    private:
-
     public:
+        // Minor planet functions
         void events();
         void create(size_t);
+        // Minor planet variables
+    private:
 };
 
 #endif // WORLDMAN_H

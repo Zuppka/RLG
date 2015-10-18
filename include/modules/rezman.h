@@ -4,6 +4,7 @@
 #define REZMAN_H
 
 #include <string>
+#include <vector>
 
 // Resource Manager class
 class Rezman {
@@ -11,32 +12,36 @@ class Rezman {
 
 	public:
 	    // File path variables
-	    const char *datapath = "resources";
-        std::string path = "", indexPath = "";
+	    std::string datapath = "resources", indexPath = datapath + "\\index.json";
         // Resource classification
-        std::string cat1[4] = {"Mineral", "Chemical", "Flora", "Fauna"};
-        std::string cat2[4][10] = {{"Native", "Sulfides", "Halides", "Oxides", "Carbonates", "Borates", "Sulfates", "Phosphates", "Silicates", "Organic Minerals"},
-                                    {"Petrochemical", "Compounds", "Monatomic Gas", "Diatomic Gas"},
-                                    {"Cereals", "Fruit", "Vegetables", "Soft Wood", "Hard Wood"},
-                                    {"Hide", "Bone", "Meat", "Fibre"}};
-        std::string cat3B[2][3] = {{"Alkane", "Cycloalkane", "Aromatic"},
-                                    {"Water", "Acids", "Bases"}};
-        std::string cat3C[3][4] = {{"Wheat", "Millet", "Rice", "Maize"},
-                                    {"Flowering Fruit", "Berry", "Nut", "Citrus"},
-                                    {"Greens", "Root Tuber", "Gourd", "Beans"}};
+        std::vector <std::string> cat1 = {"Mineral", "Chemical", "Flora", "Fauna"};
+        std::vector <std::vector <std::string>> cat2 = {
+            {"Native", "Sulfides", "Halides", "Oxides", "Carbonates", "Borates", "Sulfates", "Phosphates", "Silicates", "Organic Minerals"},
+            {"Petrochemical", "Compounds", "Monatomic Gas", "Diatomic Gas"},
+            {"Cereals", "Fruit", "Vegetables", "Soft Wood", "Hard Wood"},
+            {"Hide", "Bone", "Meat", "Fibre"}
+        };
+        std::vector <std::vector <std::string>> cat3B = {
+            {"Alkane", "Cycloalkane", "Aromatic"},
+            {"Water", "Acids", "Bases"}
+        };
+        std::vector <std::vector <std::string>> cat3C = {
+            {"Wheat", "Millet", "Rice", "Maize"},
+            {"Flowering Fruit", "Berry", "Nut", "Citrus"},
+            {"Greens", "Root Vegetable", "Gourd", "Beans"}
+        };
         // Resource properties
-        std::string type[5] = {"", "", "", "", ""};
-        std::string name;
-	    int rezID, attr[10];
+        std::string rezName, rezPath, type[5] = {"", "", "", "", ""};
+        int rezID, attr[10], num[3];
 
         void init();
-        void pathName(int);
-        bool saveRezInfo();
-        bool loadRezInfo(int);
+        void genRezPath(Rezman*);
+        bool saveRezInfo(Rezman);
+        bool loadRezInfo(Rezman*, int);
         bool printRezInfo(int);
         bool chekRezName(std::string);
-        void generateResource();
-        void generateManual();
+        void genRezAuto(int, int, int);
+        void genRezManual();
 };
 
 #endif // REZMAN_H

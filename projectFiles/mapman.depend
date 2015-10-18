@@ -1,0 +1,92 @@
+# depslib dependency file v1.0
+1423854483 source:d:\bin\rlg\src\mapman\mapman_main.cpp
+	<modules\mapman.h>
+	<modules\toolman.h>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<string>
+
+1424485245 d:\bin\rlg\include\modules\mapman.h
+	<json/json.h>
+	<string>
+
+1420479801 d:\bin\rlg\include\json\json.h
+	"autolink.h"
+	"value.h"
+	"reader.h"
+	"writer.h"
+	"features.h"
+
+1420479742 d:\bin\rlg\include\json\autolink.h
+	"config.h"
+	<cpptl/cpptl_autolink.h>
+	"autolink.h"
+
+1420479756 d:\bin\rlg\include\json\config.h
+	<cpptl/config.h>
+
+1420479844 d:\bin\rlg\include\json\value.h
+	"forwards.h"
+	<string>
+	<vector>
+	<map>
+	<cpptl/smallmap.h>
+	<cpptl/forwards.h>
+
+1420479786 d:\bin\rlg\include\json\forwards.h
+	"config.h"
+
+1420479819 d:\bin\rlg\include\json\reader.h
+	"features.h"
+	"value.h"
+	<deque>
+	<iosfwd>
+	<stack>
+	<string>
+
+1420479774 d:\bin\rlg\include\json\features.h
+	"forwards.h"
+
+1420479857 d:\bin\rlg\include\json\writer.h
+	"value.h"
+	<vector>
+	<string>
+
+1423682176 d:\bin\rlg\include\modules\toolman.h
+	<string>
+	<vector>
+
+1424485245 source:d:\bin\rlg\src\mapman\mapman.cpp
+	<modules\mapman.h>
+	<modules\rezman.h>
+	<modules\worldman.h>
+	<modules\fileman.h>
+	<modules\toolman.h>
+	<cmath>
+	<cstdio>
+	<cstring>
+	<iostream>
+	<string>
+	<sstream>
+
+1424125030 d:\bin\rlg\include\modules\rezman.h
+	<string>
+	<vector>
+
+1422084240 d:\bin\rlg\include\modules\worldman.h
+	<string>
+
+1423806400 d:\bin\rlg\include\modules\fileman.h
+	<json/json.h>
+	<string>
+
+1424126006 source:d:\bin\rlg\src\rezman\rezman.cpp
+	<modules\rezman.h>
+	<modules\toolman.h>
+	<modules\fileman.h>
+	<cstdlib>
+	<cstdio>
+	<cstring>
+	<iostream>
+
